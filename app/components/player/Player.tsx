@@ -5,22 +5,27 @@ import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import KirbyAvatar from '../avatar/KirbyAvatar';
 import { keys, onDown, onUp } from './keyboard';
+import { HOTSPOTS, INTERACT_RADIUS } from '../world/hotspots';
 
 const WATER_LEVEL = 0.15;      // y-height of water surface in your model
 const STEP_HEIGHT = 0.6;       // max ledge height we auto-step up
 const PROBE_AHEAD = 0.6;       // how far ahead to look for a step (meters)
 
-export default function Player({
-  spawnY,
-  cameraRef,
-  canvasRef,
-  onInteract,
-}: {
-  spawnY: number;
+type Props = {
+  spawn: [number, number, number];
+  waterLevel: number;
   cameraRef: React.RefObject<THREE.PerspectiveCamera>;
   canvasRef: React.RefObject<HTMLCanvasElement>;
   onInteract: (nearest: string | null) => void;
-}) {
+};
+
+
+export default function Player({
+  spawn: [_, spawnY],
+  cameraRef,
+  canvasRef,
+  onInteract,
+}: Props) {
   const body = useRef<any>(null);
   const { rapier, world } = useRapier();
 
@@ -40,11 +45,10 @@ export default function Player({
 
   // interact demo points (adjust to your map)
   const [near, setNear] = useState<string|null>(null);
-  const interactTargets = useMemo(() => ([
-    { id:'resume',   pos: new THREE.Vector3(-2.4, 0.2,  0.5) },
-    { id:'articles', pos: new THREE.Vector3( 2.1, 0.2,  0.6) },
-    { id:'projects', pos: new THREE.Vector3( 0.2, 0.2, -2.2) },
-  ]), []);
+  const interactTargets = useMemo(
+    () => HOTSPOTS.map(h => ({ id: h.id, pos: new THREE.Vector3(...h.pos) })),
+    []
+  );
 
   useEffect(() => {
     window.addEventListener('keydown', onDown);
@@ -156,13 +160,13 @@ export default function Player({
     cameraRef.current.lookAt(t.x, t.y + head, t.z);
 
     // interactions
-    let nearest: string|null = null, minD = 1.4;
+    let nearest: string|null = null, minD = INTERACT_RADIUS;
     for (const a of interactTargets) {
       const d = a.pos.distanceTo(new THREE.Vector3(t.x, 0, t.z));
       if (d < minD) { minD = d; nearest = a.id; }
     }
     setNear(nearest);
-    if (nearest && (keys).e) onInteract(nearest);
+    if (nearest && (keys as any).e) onInteract(nearest);
   });
 
   return (

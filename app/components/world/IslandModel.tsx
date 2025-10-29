@@ -3,6 +3,12 @@ import { useGLTF } from '@react-three/drei';
 import { MeshCollider, RigidBody } from '@react-three/rapier';
 import * as THREE from 'three';
 
+export type IslandReadyInfo = {
+  topY: number;
+  waterY: number;
+  landCenter: [number, number];
+};
+
 export default function IslandModel({
   onReady,
   targetSize = 72,
