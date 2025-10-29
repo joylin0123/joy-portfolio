@@ -63,6 +63,49 @@ const up = (e: KeyboardEvent) => {
   if (e.code === 'Space') keys.space = false;
 };
 
+/* -------------------- Avatar model that faces movement direction -------------------- */
+
+function KirbyAvatar({
+  yawRef,
+  targetHeight = 1.2,        // match your player “height”
+}: {
+  yawRef: React.MutableRefObject<number>;
+  targetHeight?: number;
+}) {
+  const { scene } = useGLTF('/models/kirby.glb');
+  const group = useRef<THREE.Group>(null);
+
+  // Clean out lights/cameras that may ship in GLBs
+  useMemo(() => {
+    scene.traverse((o: any) => {
+      if ((o as any).isCamera || (o as any).isLight) o.parent?.remove(o);
+    });
+  }, [scene]);
+
+  // Fit model to a specific height and rest it on the ground (y = 0)
+  const { scale, yOffset } = useMemo(() => {
+    const clone = scene.clone(true);
+    const box = new THREE.Box3().setFromObject(clone);
+    const size = box.getSize(new THREE.Vector3());
+    const s = targetHeight / Math.max(size.y, 1e-6);
+    const yOff = -box.min.y * s;  // lift so feet sit on ground
+    return { scale: s, yOffset: yOff };
+  }, [scene, targetHeight]);
+
+  // Make the avatar face the same direction as movement
+  useFrame(() => {
+    if (group.current) group.current.rotation.y = yawRef.current;
+  });
+
+  return (
+    <group ref={group} position={[0, yOffset, 0]} scale={scale}>
+      <primitive object={scene} />
+    </group>
+  );
+}
+useGLTF.preload('/models/kirby.glb');
+
+
 /* -------------------- Player: smaller capsule + chase camera -------------------- */
 function Player({
   spawnY,
@@ -101,12 +144,10 @@ function Player({
     };
   }, []);
 
-    //   const spawnPos = useMemo(() => [0, spawnY + 0.6, 4] as [number, number, number], [spawnY]);
-    // was: [0, spawnY + 0.6, 4]
-const spawnPos = useMemo(
-  () => [0, spawnY + 0.6, 0] as [number, number, number],
-  [spawnY]
-);
+    const spawnPos = useMemo(
+        () => [0, spawnY + 0.6, 0] as [number, number, number],
+        [spawnY]
+    );
 
 
   useFrame((_, dt) => {
@@ -155,28 +196,28 @@ const spawnPos = useMemo(
   });
 
   return (
-    <RigidBody
-      ref={body}
-      colliders={false}
-      mass={60}
-      position={spawnPos}
-      enabledRotations={[false, false, false]}
-      linearDamping={0.2}
-      friction={0.0}
-    >
-      <CapsuleCollider args={[height / 2, radius]} />
-      {/* visible avatar (now smaller) */}
-      <mesh rotation={[0, yaw.current, 0]}>
-        <capsuleGeometry args={[radius, height, 12, 24]} />
-        <meshStandardMaterial color="#f5f5f5" />
-      </mesh>
+      <RigidBody
+        ref={body}
+        colliders={false}
+        mass={60}
+        position={spawnPos}
+        enabledRotations={[false, false, false]}
+        linearDamping={0.2}
+        friction={0.0}
+        >
+        {/* physics stays capsule-shaped for smooth movement */}
+        <CapsuleCollider args={[height / 2, radius]} />
 
-      <Html occlude style={{ pointerEvents:'none' }}>
-        <div style={{ position:'absolute', top:-28, left:-20, fontSize:12 }}>
-          {near ? `Press E to open ${near}` : ''}
-        </div>
-      </Html>
-    </RigidBody>
+        {/* visible avatar */}
+        <KirbyAvatar yawRef={yaw} targetHeight={height} />
+
+        <Html occlude style={{ pointerEvents: 'none' }}>
+            <div style={{ position: 'absolute', top: -28, left: -20, fontSize: 12 }}>
+            {near ? `Press E to open ${near}` : ''}
+            </div>
+        </Html>
+      </RigidBody>
+
   );
 }
 
