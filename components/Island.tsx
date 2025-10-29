@@ -1,7 +1,7 @@
 'use client';
 
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
-import { Html, OrbitControls, useGLTF } from '@react-three/drei';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Html, useGLTF } from '@react-three/drei';
 import {
   Physics,
   RigidBody,
@@ -15,19 +15,16 @@ import * as THREE from 'three';
 /* -------------------- Island (render + collider + normalization) -------------------- */
 function IslandModel({
   onReady,
-  targetSize = 6,
+  targetSize = 48,
 }: {
   onReady?: (topY: number) => void;
   targetSize?: number;
 }) {
   const { scene } = useGLTF('/models/island.glb');
-
-  // Clean up cameras/lights that might ship with the GLB
   scene.traverse((o: any) => {
     if ((o as any).isCamera || (o as any).isLight) o.parent?.remove(o);
   });
 
-  // Center, put bottom on y=0, scale to target size
   const norm = useMemo(() => {
     const box = new THREE.Box3().setFromObject(scene);
     const size = box.getSize(new THREE.Vector3());
@@ -42,7 +39,7 @@ function IslandModel({
 
   return (
     <RigidBody type="fixed" colliders={false}>
-      {/* IMPORTANT: MeshCollider wraps the geometry it bakes from */}
+      {/* Collider must wrap the geometry it bakes from */}
       <MeshCollider type="trimesh">
         <group scale={norm.scale} position={norm.pos as any}>
           <primitive object={scene} />
@@ -54,119 +51,127 @@ function IslandModel({
 useGLTF.preload('/models/island.glb');
 
 /* -------------------- Keyboard state -------------------- */
-const keys = { w: false, a: false, s: false, d: false, space: false, e: false };
-const onKeyDown = (e: KeyboardEvent) => {
+const keys = { w:false, a:false, s:false, d:false, space:false, e:false };
+const down = (e: KeyboardEvent) => {
   const k = e.key.toLowerCase();
   if (k in keys) (keys as any)[k] = true;
   if (e.code === 'Space') keys.space = true;
-  if (k === 'e') keys.e = true;
 };
-const onKeyUp = (e: KeyboardEvent) => {
+const up = (e: KeyboardEvent) => {
   const k = e.key.toLowerCase();
   if (k in keys) (keys as any)[k] = false;
   if (e.code === 'Space') keys.space = false;
-  if (k === 'e') keys.e = false;
 };
 
-/* -------------------- Player (OrbitControls handles rotation) -------------------- */
+/* -------------------- Player: smaller capsule + chase camera -------------------- */
 function Player({
   spawnY,
-  controlsRef,
   onInteract,
+  cameraRef,
 }: {
-  spawnY: number;                            // we mount only after we have this
-  controlsRef: React.RefObject<any>;
+  spawnY: number;
   onInteract: (nearest: string | null) => void;
+  cameraRef: React.RefObject<THREE.PerspectiveCamera>;
 }) {
   const body = useRef<any>(null);
-  const { camera } = useThree();
   const { rapier, world } = useRapier();
+  const cam = cameraRef;
 
-  const height = 1.6, radius = 0.35, speed = 3.4, jumpVel = 5.2;
+  const height = 1.2;    
+  const radius = 0.3;
+  const walkSpeed = 4.0;  // slightly faster because island is larger
+  const turnSpeed = 2.2;
+  const jumpVel = 5.2;
 
-  const [near, setNear] = useState<string | null>(null);
-  const interactTargets = useMemo(
-    () => [
-      { id: 'resume',   pos: new THREE.Vector3(-0.8, 0.2,  0.2) },
-      { id: 'articles', pos: new THREE.Vector3( 0.7, 0.2,  0.0) },
-      { id: 'projects', pos: new THREE.Vector3( 0.1, 0.2, -0.7) },
-    ],
-    []
-  );
+  const yaw = useRef(0);
+
+  const [near, setNear] = useState<string|null>(null);
+  const interactTargets = useMemo(() => ([
+    { id:'resume',   pos: new THREE.Vector3(-2.4, 0.2,  0.5) },
+    { id:'articles', pos: new THREE.Vector3( 2.1, 0.2,  0.6) },
+    { id:'projects', pos: new THREE.Vector3( 0.2, 0.2, -2.2) },
+  ]), []);
 
   useEffect(() => {
-    window.addEventListener('keydown', onKeyDown);
-    window.addEventListener('keyup', onKeyUp);
+    window.addEventListener('keydown', down);
+    window.addEventListener('keyup', up);
     return () => {
-      window.removeEventListener('keydown', onKeyDown);
-      window.removeEventListener('keyup', onKeyUp);
+      window.removeEventListener('keydown', down);
+      window.removeEventListener('keyup', up);
     };
   }, []);
 
-  useFrame(() => {
-    if (!body.current) return;
+    //   const spawnPos = useMemo(() => [0, spawnY + 0.6, 4] as [number, number, number], [spawnY]);
+    // was: [0, spawnY + 0.6, 4]
+const spawnPos = useMemo(
+  () => [0, spawnY + 0.6, 0] as [number, number, number],
+  [spawnY]
+);
 
+
+  useFrame((_, dt) => {
+    if (!body.current) return;
     const t = body.current.translation();
 
-    // Keep OrbitControls target on the player so you can rotate around with mouse
-    if (controlsRef.current) {
-      controlsRef.current.target.set(t.x, t.y + 0.9, t.z);
-      controlsRef.current.update();
-    }
+    // keyboard yaw
+    if (keys.a) yaw.current += turnSpeed * dt;
+    if (keys.d) yaw.current -= turnSpeed * dt;
 
-    // Move relative to camera facing
-    const forward = new THREE.Vector3();
-    camera.getWorldDirection(forward); forward.y = 0; forward.normalize();
-    const right = new THREE.Vector3().crossVectors(forward, new THREE.Vector3(0,1,0)).negate();
+    // forward from yaw
+    const forward = new THREE.Vector3(Math.sin(yaw.current), 0, Math.cos(yaw.current)).normalize();
 
-    const dir = new THREE.Vector3();
-    if (keys.w) dir.add(forward);
-    if (keys.s) dir.sub(forward);
-    if (keys.a) dir.sub(right);
-    if (keys.d) dir.add(right);
-    if (dir.lengthSq() > 0) dir.normalize().multiplyScalar(speed);
-
+    // move
+    let vx = 0, vz = 0;
+    if (keys.w) { vx += forward.x * walkSpeed; vz += forward.z * walkSpeed; }
+    if (keys.s) { vx -= forward.x * walkSpeed; vz -= forward.z * walkSpeed; }
     const vel = body.current.linvel();
-    body.current.setLinvel({ x: dir.x, y: vel.y, z: dir.z }, true);
+    body.current.setLinvel({ x: vx, y: vel.y, z: vz }, true);
 
-    // Ground check
+    // ground check
     const Ray = rapier.Ray;
-    const ray = new Ray({ x: t.x, y: t.y, z: t.z }, { x: 0, y: -1, z: 0 });
+    const ray = new Ray({ x:t.x, y:t.y, z:t.z }, { x:0, y:-1, z:0 });
     const hit = world.castRay(ray, 0.25 + radius + 0.05, true);
     const grounded = !!hit && hit.toi < 0.3;
     if (grounded && keys.space) body.current.setLinvel({ x: vel.x, y: jumpVel, z: vel.z }, true);
 
-    // Interactions
-    let nearest: string | null = null;
-    let minD = 1.0;
+    // ⬇️ Camera farther back & a bit higher so avatar isn't huge
+    const boom = new THREE.Vector3(0, 1.6, 7.5); // [right, up, back]
+    const rotY = new THREE.Matrix4().makeRotationY(-yaw.current);
+    const worldOffset = boom.clone().applyMatrix4(rotY);
+    const camPos = new THREE.Vector3(t.x, t.y, t.z).add(worldOffset);
+    if (cam.current) {
+      cam.current.position.lerp(camPos, 1 - Math.pow(0.001, dt));
+      cam.current.lookAt(t.x, t.y + 0.9, t.z);
+    }
+
+    // interactions
+    let nearest: string|null = null, minD = 1.2;
     for (const a of interactTargets) {
       const d = a.pos.distanceTo(new THREE.Vector3(t.x, 0, t.z));
       if (d < minD) { minD = d; nearest = a.id; }
     }
     setNear(nearest);
-    if (nearest && keys.e) onInteract(nearest);
+    if (nearest && (keys as any).e) onInteract(nearest);
   });
-
-  // IMPORTANT: give the initial spawn via the `position` prop.
-  const spawnPos = useMemo(() => [0, spawnY + 0.6, 2] as [number, number, number], [spawnY]);
 
   return (
     <RigidBody
       ref={body}
       colliders={false}
       mass={60}
-      position={spawnPos}                     // ← initial spawn here, not in an effect
+      position={spawnPos}
       enabledRotations={[false, false, false]}
       linearDamping={0.2}
       friction={0.0}
     >
       <CapsuleCollider args={[height / 2, radius]} />
-      <mesh visible={false}>
-        <capsuleGeometry args={[radius, height, 8, 16]} />
-        <meshNormalMaterial />
+      {/* visible avatar (now smaller) */}
+      <mesh rotation={[0, yaw.current, 0]}>
+        <capsuleGeometry args={[radius, height, 12, 24]} />
+        <meshStandardMaterial color="#f5f5f5" />
       </mesh>
 
-      <Html occlude style={{ pointerEvents: 'none' }}>
+      <Html occlude style={{ pointerEvents:'none' }}>
         <div style={{ position:'absolute', top:-28, left:-20, fontSize:12 }}>
           {near ? `Press E to open ${near}` : ''}
         </div>
@@ -177,56 +182,48 @@ function Player({
 
 /* -------------------- Main scene -------------------- */
 export default function Island() {
-  const [panel, setPanel] = useState<string | null>(null);
-  const [spawnY, setSpawnY] = useState<number | null>(null); // wait for island height
-  const controls = useRef<any>(null);
+  const [panel, setPanel] = useState<string|null>(null);
+  const [spawnY, setSpawnY] = useState<number|null>(null);
+  const cameraRef = useRef<THREE.PerspectiveCamera>(null);
 
   return (
     <div style={{ height: '100vh' }}>
       <Canvas
-        camera={{ position: [0, 2.2, 6], fov: 50 }}
+        camera={{ position: [0, 4, 12], fov: 55 }}  // ⬅️ start farther back & slightly wider FOV
         dpr={[1, 1.5]}
-        gl={{ antialias: false, powerPreference: 'high-performance', preserveDrawingBuffer: false }}
+        gl={{ antialias:false, powerPreference:'high-performance', preserveDrawingBuffer:false }}
+        onCreated={({ camera }) => { cameraRef.current = camera as THREE.PerspectiveCamera; }}
       >
         <color attach="background" args={['#0b0f1a']} />
-        <ambientLight intensity={0.25} />
-        <hemisphereLight intensity={0.8} groundColor="#222" />
-        <directionalLight position={[6, 8, 6]} intensity={1.6} />
+        <ambientLight intensity={0.35} />
+        <hemisphereLight intensity={0.9} groundColor="#213" />
+        <directionalLight position={[6, 10, 6]} intensity={1.6} />
 
         <Suspense fallback={null}>
           <Physics gravity={[0, -12, 0]}>
             <IslandModel onReady={(topY) => setSpawnY(Math.max(2, topY + 0.3))} />
             {spawnY !== null && (
               <Player
-                key={`spawn-${spawnY}`}          // ensure a clean mount when spawnY changes
+                key={`spawn-${spawnY}`}
                 spawnY={spawnY}
-                controlsRef={controls}
                 onInteract={(id) => {
                   if (id === 'resume') setPanel('/resume');
                   if (id === 'articles') setPanel('/articles');
                   if (id === 'projects') setPanel('/projects');
                 }}
+                cameraRef={cameraRef}
               />
             )}
 
-            {/* Safety floor (debug) */}
+            {/* safety floor (debug) */}
             <RigidBody type="fixed">
               <mesh position={[0, -0.05, 0]}>
-                <boxGeometry args={[50, 0.1, 50]} />
-                <meshStandardMaterial color="#1e293b" />
+                <boxGeometry args={[120, 0.1, 120]} />
+                <meshStandardMaterial color="#153247" />
               </mesh>
             </RigidBody>
           </Physics>
         </Suspense>
-
-        <OrbitControls
-          ref={controls}
-          enablePan={false}
-          enableDamping
-          dampingFactor={0.08}
-          minDistance={2.5}
-          maxDistance={10}
-        />
       </Canvas>
 
       {panel && (
