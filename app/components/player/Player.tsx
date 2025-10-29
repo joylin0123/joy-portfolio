@@ -3,7 +3,7 @@ import { Html } from '@react-three/drei';
 import { CapsuleCollider, RigidBody, useRapier } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import KirbyAvatar from './KirbyAvatar';
+import KirbyAvatar from '../avatar/KirbyAvatar';
 import { keys, onDown, onUp } from './keyboard';
 
 const WATER_LEVEL = 0.15;      // y-height of water surface in your model
@@ -121,7 +121,7 @@ export default function Player({
       const Ray = rapier.Ray;
       const ray = new Ray({ x:t.x, y:t.y, z:t.z }, { x:0, y:-1, z:0 });
       const hit = world.castRay(ray, radius + 0.8, true);
-      const grounded = !!hit && hit.toi < 0.6;
+      const grounded = !!hit && hit.timeOfImpact < 0.6;
 
       // jump
       if (grounded && keys.space) {
@@ -134,7 +134,7 @@ export default function Player({
       const probe = new Ray(probeOrigin, { x:0, y:-1, z:0 });
       const hit2 = world.castRay(probe, 2.0, true);
       if (hit2) {
-        const groundY = probeOrigin.y - hit2.toi;
+        const groundY = probeOrigin.y - hit2.timeOfImpact;
         const delta   = groundY - t.y;
         if (delta > 0.08 && delta < STEP_HEIGHT) {
           body.current.setTranslation({ x: t.x, y: groundY + 0.02, z: t.z }, true);
@@ -172,7 +172,6 @@ export default function Player({
       mass={60}
       position={spawnPos}
       enabledRotations={[false, false, false]}
-      // linearDamping={inWater ? 2.0 : 0.2}   // more drag in water (optional)
       friction={0.0}
     >
       <CapsuleCollider args={[height / 2, radius]} />

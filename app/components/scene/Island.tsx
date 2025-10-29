@@ -6,8 +6,8 @@ import {
   Physics,
 } from '@react-three/rapier';
 import { Suspense, useRef, useState } from 'react';
-import IslandModel from './IslandModel';
-import Player from './Player';
+import IslandModel from '../model/IslandModel';
+import Player from '../player/Player';
 import * as THREE from 'three';
 
 export default function Island() {

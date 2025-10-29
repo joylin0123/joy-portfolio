@@ -1,7 +1,7 @@
 'use client';
 import dynamic from 'next/dynamic';
 
-const Island = dynamic(() => import('./components/Island'), { ssr: false });
+const Island = dynamic(() => import('./components/scene/Island'), { ssr: false });
 
 export default function Home() {
   return (
