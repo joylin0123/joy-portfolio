@@ -72,7 +72,6 @@ export default function Island() {
               <>
                 <HotspotMeshes
                   center={info.landCenter ?? [0, 0]}
-                  waterY={info.waterY ?? 0.15}
                   topY={info.topY ?? 2}
                 />
 
@@ -104,7 +103,7 @@ export default function Island() {
 
       {panel && (
         <div className="fixed inset-0 bg-black/50 grid place-items-center">
-          <div className="w-[90vw] max-w-[840px] h-[70vh] bg-[#141824] rounded-2xl border border-white/10 overflow-hidden">
+          <div className="w-[90vw] max-w-[900px] h-[80vh] bg-[#141824] rounded-2xl border border-white/10 overflow-hidden">
             <div className="flex justify-between items-center px-4 h-10 border-b border-white/10 text-sm">
               <span className="opacity-70">{panel}</span>
               <button onClick={() => setPanel(null)} className="opacity-80">

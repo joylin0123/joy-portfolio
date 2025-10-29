@@ -1,158 +1,100 @@
-'use client';
-
-import { Billboard, Text } from '@react-three/drei';
+// HotspotMeshes.tsx
+import { Billboard, Text, Float, Sparkles } from '@react-three/drei';
 import { useThree, useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { HOTSPOTS, INTERACT_RADIUS } from './hotspots';
+import { useRef } from 'react';
+import { HOTSPOTS } from './hotspots';
 
-type Props = {
-  center: [number, number]; // [cx, cz]
-  waterY: number;
-  topY: number;
-};
-
-type WorldHotspot = (typeof HOTSPOTS)[number] & {
-  worldPos: [number, number, number]; // panel pos (slightly above ground)
-  groundY: number;                    // exact ground height at XZ
-};
-
-/* ---------- Arrow that points DOWN to the ground tip = y=0 ---------- */
-function ArrowDown({
-  height = 0.7,            // shaft length
-  color = '#ff4d6d',
-  active = false,
-}: { height?: number; color?: string; active?: boolean }) {
-  const g = useRef<THREE.Group>(null);
-  const tRef = useRef(0);
-
-  useFrame((_, dt) => {
-    tRef.current += dt;
-    if (!g.current) return;
-    // gentle bob + pulse when active
-    const bob = (active ? 0.08 : 0.04) * Math.sin(tRef.current * 3.0);
-    g.current.position.y = 0.02 + bob;
-    g.current.rotation.y = Math.sin(tRef.current * 1.2) * 0.25; // tiny sway
-  });
-
-  const tipH = 0.24; // cone height
-  const shaftR = 0.04;
-
+export default function HotspotMeshes({
+  center = [0, 0],
+  topY = 2,
+}: {
+  center?: [number, number];
+  topY?: number;
+}) {
   return (
-    // group origin at ground; tip apex sits at y≈0
-    <group ref={g}>
-      <group rotation={[Math.PI, 0, 0]}>
-        {/* tip (downwards) — place so apex touches ground */}
-        <mesh position={[0, tipH / 2, 0]}>
-          <coneGeometry args={[0.12, tipH, 16]} />
-          <meshStandardMaterial
-            color={color}
-            emissive={color}
-            emissiveIntensity={active ? 1.0 : 0.5}
+    <group>
+      {HOTSPOTS.map((h) => {
+        const [cx, cz] = center;
+        const x = (h.offset?.[0] ?? 0) + cx;
+        const z = (h.offset?.[1] ?? 0) + cz;
+        const y = topY + (h.y ?? 0.02 );
+        return (
+          <Hotspot3D
+            key={h.id}
+            label={h.label ?? h.id ?? 'Resume'}
+            position={[x, y, z]}
           />
-        </mesh>
-        {/* shaft (downwards) starting right above the tip */}
-        <mesh position={[0, tipH + height / 2, 0]}>
-          <cylinderGeometry args={[shaftR, shaftR, height, 12]} />
-          <meshStandardMaterial
-            color={color}
-            emissive={color}
-            emissiveIntensity={active ? 0.6 : 0.3}
-          />
-        </mesh>
-      </group>
+        );
+      })}
     </group>
   );
 }
 
-export default function HotspotMeshes({ center, waterY, topY }: Props) {
-  const { scene, camera } = useThree();
+function Hotspot3D({
+  position,
+  label = 'Resume',
+}: {
+  position: [number, number, number];
+  label?: string;
+}) {
+  const group = useRef<THREE.Group>(null!);
+  const ringMat = useRef<THREE.MeshStandardMaterial>(null!);
 
-  const [items, setItems] = useState<WorldHotspot[]>([]);
-  const [nearId, setNearId] = useState<string | null>(null);
-
-  // Compute world positions and snap to terrain with a raycast
-  useEffect(() => {
-    const rc = new THREE.Raycaster();
-    const up = topY + 10;
-
-    const next: WorldHotspot[] = HOTSPOTS.map(h => {
-      const [dx, dy, dz] = h.pos;
-      const x = center[0] + dx;
-      const z = center[1] + dz;
-
-      rc.set(new THREE.Vector3(x, up, z), new THREE.Vector3(0, -1, 0));
-      const hits = rc.intersectObjects(scene.children, true);
-      const hit = hits.find(hh => hh.point.y > waterY + 0.05);
-
-      const groundY = hit ? hit.point.y : waterY;
-      const y = (hit ? hit.point.y : waterY) + 0.12 + dy; // panel slightly above ground
-
-      return { ...h, worldPos: [x, y, z] as [number, number, number], groundY };
-    });
-
-    setItems(next);
-  }, [center, waterY, topY, scene]);
-
-  // simple proximity highlight
-  useEffect(() => {
-    const v = new THREE.Vector3();
-    let raf = 0;
-    const loop = () => {
-      let id: string | null = null;
-      let min = INTERACT_RADIUS;
-      const p = camera.position;
-      items.forEach(h => {
-        const d = v.set(h.worldPos[0], 0, h.worldPos[2]).distanceTo(new THREE.Vector3(p.x, 0, p.z));
-        if (d < min) { min = d; id = h.id; }
-      });
-      setNearId(id);
-      raf = requestAnimationFrame(loop);
-    };
-    raf = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(raf);
-  }, [items, camera]);
+  useFrame((state) => {
+    const t = state.clock.elapsedTime;
+    if (group.current) group.current.position.y = position[1] + Math.sin(t * 1.2) * 0.05;
+    if (ringMat.current) ringMat.current.emissiveIntensity = 0.7 + Math.sin(t * 3) * 0.4;
+  });
 
   return (
-    <>
-      {items.map(h => (
-        <group key={h.id}>
-          <group position={h.worldPos}>
-            {h.kind === 'crate' ? (
-              <mesh>
-                <boxGeometry args={h.size ?? [0.8, 0.6, 0.8]} />
-                <meshStandardMaterial
-                  color={nearId === h.id ? '#ffd166' : '#8ecae6'}
-                  emissive={nearId === h.id ? '#ffb703' : '#000'}
-                  emissiveIntensity={nearId === h.id ? 0.7 : 0}
-                />
-              </mesh>
-            ) : (
-              <Billboard follow>
-                <mesh>
-                  <boxGeometry args={h.size ?? [1.2, 0.8, 0.08]} />
-                  <meshStandardMaterial
-                    color={nearId === h.id ? '#ffd6a5' : '#cbd5e1'}
-                    emissive={nearId === h.id ? '#fb8500' : '#000'}
-                    emissiveIntensity={nearId === h.id ? 0.7 : 0}
-                  />
-                </mesh>
-                <Text
-                  fontSize={0.24}
-                  anchorX="center"
-                  anchorY="middle"
-                  position={[0, 0, 0.06]}
-                  outlineWidth={0.02}
-                  outlineColor="#000"
-                  color="white"
-                >
-                  {h.label}
-                </Text>
-              </Billboard>
-            )}
-          </group>
-        </group>
-      ))}
-    </>
+    <group ref={group} position={position}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -0.01, 0]}>
+        <ringGeometry args={[0.42, 0.6, 48]} />
+        <meshStandardMaterial
+          ref={ringMat}
+          color="#0ea5a7"
+          emissive="#34d399"
+          emissiveIntensity={1.2}
+          transparent
+          opacity={0.9}
+        />
+      </mesh>
+
+      <mesh position={[0, 0.25, 0]}>
+        <cylinderGeometry args={[0.07, 0.09, 0.5, 6]} />
+        <meshStandardMaterial color="#8b5a2b" roughness={1} />
+      </mesh>
+
+      <Billboard follow position={[0, 0.45, 0]}>
+        <Float speed={1} floatIntensity={0.4} rotationIntensity={0.1}>
+          <mesh>
+            <circleGeometry args={[0.6, 48]} />
+            <meshBasicMaterial color="#0ea5a7" transparent opacity={0.12} />
+          </mesh>
+
+          <mesh position={[0, 0, 0.02]}>
+            <boxGeometry args={[1.6, 0.5, 0.06]} />
+            <meshStandardMaterial color="#0b1322" metalness={0.1} roughness={0.85} />
+          </mesh>
+
+          <Text
+            position={[0, 0, 0.06]}
+            fontSize={0.26}
+            letterSpacing={0.02}
+            outlineWidth={0.02}
+            outlineColor="#34d399"
+            anchorX="center"
+            anchorY="middle"
+          >
+            {label}
+          </Text>
+
+          <Sparkles count={8} scale={0.9} size={2} speed={0.2} color="#a7f3d0" />
+        </Float>
+      </Billboard>
+
+      <pointLight color="#34d399" intensity={1.2} distance={3.5} decay={2} position={[0, 0.5, 0]} />
+    </group>
   );
 }
