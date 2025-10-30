@@ -1,25 +1,27 @@
-'use client';
-
-import { useMemo } from 'react';
 import Section from '@/components/ui/Section';
 import PixelDivider from '@/components/ui/PixelDivider';
-import { getArticleMetaList } from '@/contents/articles/registry';
-import { pixelBorderStyle } from '@/libs/constants/pixelBorderStyle';
 import FeatureCard from '@/components/ui/FeatureCard';
-import { Meta } from '@/types/Meta';
+import { getArticleMetaList } from '@/libs/helpers/markdown';
+import { pixelBorderStyle } from '@/libs/constants/pixelBorderStyle';
+
+type Meta = {
+  slug: string; title: string; date: string; summary?: string; tags?: string[];
+};
 
 function byTag(items: Meta[], tag: string, limit = 1) {
-  return items.filter(m => (m.tags || []).map(t => t.toLowerCase()).includes(tag.toLowerCase())).slice(0, limit);
+  const lower = tag.toLowerCase();
+  return items.filter(m => (m.tags ?? []).map(t => t.toLowerCase()).includes(lower)).slice(0, limit);
 }
 
-export default function FlatHome() {
-  const all = useMemo<Meta[]>(() => {
-    try { return getArticleMetaList().sort((a,b) => (a.date < b.date ? 1 : -1)); }
-    catch { return []; }
-  }, []);
+export const runtime = 'nodejs'; // uses fs under the hood
 
-  const latestTech   = byTag(all, 'tech', 1).concat(byTag(all, 'technical', 1));
-  const latestPhoto  = byTag(all, 'photo', 1).concat(byTag(all, 'photography', 1));
+export default async function FlatHome() {
+  const all = await getArticleMetaList(); // ✅ no Promise type error
+
+  const latestTech    = byTag(all, 'tech', 1).concat(byTag(all, 'technical', 1));
+  const latestPhoto   = byTag(all, 'photo', 1).concat(byTag(all, 'photography', 1));
+  const latestJournal = byTag(all, 'journal', 1).concat(byTag(all, 'journals', 1));
+  const latestEurope  = byTag(all, 'europe', 1).concat(byTag(all, 'life', 1));
 
   return (
     <main className="min-h-dvh text-slate-100 bg-slate-950 print:bg-white print:text-black">
@@ -64,7 +66,7 @@ export default function FlatHome() {
               title="Photography"
               emoji="📷"
               blurb="Small photo sets and notes on gear, composition, and color. Expect minimal edits and honest light."
-              href="/photos"   // adjust to your route
+              href="/articles?tag=photo"
               chips={['fuji', 'street', 'travel']}
               latest={latestPhoto.slice(0,1)}
             />
@@ -72,7 +74,7 @@ export default function FlatHome() {
               title="Technical"
               emoji="⌨️"
               blurb="Code write-ups, architecture notes, and experiments (React-Three-Fiber, SwiftUI, AWS, more)."
-              href="/articles?tag=tech"  // or /articles
+              href="/articles?tag=tech"
               chips={['r3f', 'swiftui', 'aws']}
               latest={latestTech.slice(0,1)}
             />
@@ -106,7 +108,6 @@ export default function FlatHome() {
             <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/articles">Articles</a>
             <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/resume">Resume</a>
             <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/contact">Contact</a>
-            <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/choose">Choose 3D/2D</a>
           </nav>
         </Section>
 

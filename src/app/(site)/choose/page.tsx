@@ -4,7 +4,7 @@ import { useRouter } from 'next/navigation';
 export default function ChoosePage() {
   const router = useRouter();
 
-  const choose = (mode: '3d' | 'flat') => {
+  const choose = (mode: '3d' | '2d') => {
     document.cookie = `viewMode=${mode}; path=/; max-age=${60 * 60 * 24 * 365}`;
     router.replace(`/${mode}`);
   };
@@ -12,7 +12,7 @@ export default function ChoosePage() {
   return (
     <main className="min-h-dvh flex items-center justify-center gap-6 p-6">
       <Card title="3D Experience" desc="Full 3D island with camera + physics" onClick={() => choose('3d')} />
-      <Card title="Flat Experience" desc="Lightweight, touch-friendly list & articles" onClick={() => choose('flat')} />
+      <Card title="2D Experience" desc="Lightweight, touch-friendly list & articles" onClick={() => choose('2d')} />
     </main>
   );
 }

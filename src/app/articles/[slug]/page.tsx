@@ -1,24 +1,23 @@
 import { notFound } from 'next/navigation';
-import { getArticleEntry } from '../../../contents/articles/registry';
+import PixelDivider from '@/components/ui/PixelDivider';
+import formatDate from '@/libs/helpers/formatDate';
+import { getArticleBySlug, getArticleSlugs } from '@/libs/helpers/markdown';
 
-function PixelDivider() {
-  return <div className="h-1 w-full bg-[repeating-linear-gradient(90deg,#0ea5a7_0_10px,transparent_10px_20px)] opacity-40 my-4" />;
-}
+export const runtime = 'nodejs'; // using fs
 
-function formatDate(s: string) {
-  const d = new Date(s);
-  return isNaN(+d) ? s : d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
+export async function generateStaticParams() {
+  const slugs = await getArticleSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export default async function ArticleDetailPage(
-  { params }: { params: Promise<{ slug: string }> }
+  { params }: { params: Promise<{ slug: string }> }   // ← Promise here
 ) {
-  const { slug } = await params;
-  const entry = getArticleEntry(slug);
-  if (!entry) notFound();
+  const { slug } = await params;                       // ← unwrap it
+  const article = await getArticleBySlug(slug);
+  if (!article) notFound();
 
-  const { default: Comp } = await entry.loader(); 
-  const m = entry.meta;
+  const m = article.meta;
 
   return (
     <main className="min-h-screen text-slate-100 bg-slate-950 print:bg-white print:text-black">
@@ -27,7 +26,7 @@ export default async function ArticleDetailPage(
           backgroundImage: 'radial-gradient(circle at 1px 1px, rgba(45,212,191,0.35) 1px, transparent 1px)',
           backgroundSize: '22px 22px',
         }}/>
-        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(16,185,129,0.15)_0%,transparent_70%)]"/>
+        <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(16,185,129,0.15)_0%,transparent_70%)]" />
       </div>
 
       <div className="mx-auto max-w-3xl px-5 py-8 md:py-12">
@@ -39,8 +38,8 @@ export default async function ArticleDetailPage(
 
         <PixelDivider />
 
-        <article className="pixel-border bg-slate-900/40 p-5">
-          <Comp />
+        <article className="prose prose-invert max-w-none pixel-border bg-slate-900/40 p-5">
+          <div dangerouslySetInnerHTML={{ __html: article.html }} />
         </article>
       </div>
     </main>
