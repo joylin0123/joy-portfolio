@@ -67,7 +67,7 @@ export default async function FlatHome() {
               title="Photography"
               emoji="📷"
               blurb="Small photo sets and notes on gear, composition, and color. Expect minimal edits and honest light."
-              href="/articles?tag=photo"
+              href="/articles?tag=photography"
               chips={['fuji', 'street', 'travel']}
               latest={latestPhoto.slice(0,1)}
             />
