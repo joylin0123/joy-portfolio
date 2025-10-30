@@ -1,13 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import matter from "gray-matter";
-import { unified } from "unified";
-import remarkParse from "remark-parse";
-import remarkGfm from "remark-gfm";
-import remarkRehype from "remark-rehype";
-import rehypeSlug from "rehype-slug";
-import rehypeAutolinkHeadings from "rehype-autolink-headings";
-import rehypeStringify from "rehype-stringify";
 import { ArticleMeta } from "@/types/ArticleMeta";
 
 export type Article = {
@@ -30,17 +23,6 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
     const src = await fs.readFile(file, "utf8");
     const { content, data } = matter(src);
 
-    const html = String(
-      await unified()
-        .use(remarkParse)
-        .use(remarkGfm)
-        .use(remarkRehype, { allowDangerousHtml: false })
-        .use(rehypeSlug)
-        .use(rehypeAutolinkHeadings, { behavior: "wrap" })
-        .use(rehypeStringify)
-        .process(content)
-    );
-
     const meta: ArticleMeta = {
       slug,
       title: data.title ?? slug,
@@ -49,7 +31,7 @@ export async function getArticleBySlug(slug: string): Promise<Article | null> {
       tags: Array.isArray(data.tags) ? data.tags : [],
     };
 
-    return { meta, html };
+    return { meta, html: content };
   } catch {
     return null;
   }

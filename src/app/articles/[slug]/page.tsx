@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation';
 import PixelDivider from '@/components/ui/PixelDivider';
 import formatDate from '@/libs/helpers/formatDate';
 import { getArticleBySlug, getArticleSlugs } from '@/libs/helpers/markdown';
+import Markdown from '@/components/ui/Markdown';
 
 export const runtime = 'nodejs'; // using fs
 
@@ -11,9 +12,9 @@ export async function generateStaticParams() {
 }
 
 export default async function ArticleDetailPage(
-  { params }: { params: Promise<{ slug: string }> }   // ← Promise here
+  { params }: { params: Promise<{ slug: string }> }
 ) {
-  const { slug } = await params;                       // ← unwrap it
+  const { slug } = await params;
   const article = await getArticleBySlug(slug);
   if (!article) notFound();
 
@@ -29,7 +30,7 @@ export default async function ArticleDetailPage(
         <div className="absolute inset-0 bg-[radial-gradient(60%_60%_at_50%_0%,rgba(16,185,129,0.15)_0%,transparent_70%)]" />
       </div>
 
-      <div className="mx-auto max-w-3xl px-5 py-8 md:py-12">
+      <div className="mx-auto max-w-4xl px-5 py-8 md:py-12">
         <header className="mb-6">
           <a href="/articles" className="inline-block mb-3 pixel-border px-2 py-1 text-xs bg-slate-900/60 hover:bg-slate-800">← Back</a>
           <h1 className="text-2xl md:text-3xl font-black tracking-wider text-emerald-300">{m.title}</h1>
@@ -37,10 +38,7 @@ export default async function ArticleDetailPage(
         </header>
 
         <PixelDivider />
-
-        <article className="prose prose-invert max-w-none pixel-border bg-slate-900/40 p-5">
-          <div dangerouslySetInnerHTML={{ __html: article.html }} />
-        </article>
+        <Markdown content={article.html} />
       </div>
     </main>
   );
