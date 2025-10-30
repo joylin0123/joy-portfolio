@@ -1,36 +1,108 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🌐 Joy Lin — Interactive 2D/3D Portfolio
 
-## Getting Started
+**Live Demo:** [joy-lin-portfolio.vercel.app/2d](https://joy-lin-portfolio.vercel.app/2d)  
+A personal interactive portfolio built with **Next.js**, **React Three Fiber**, and **TailwindCSS** — blending a minimalist 2D layout with immersive 3D scenes.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## ✨ Features
+
+- 🪄 2D and 3D portfolio modes (toggle view)
+- 🧭 Smooth navigation with interactive elements
+- 🧱 Modular Markdown-based article system
+- 📸 Built-in photo journal support with responsive image grid and captions
+- 🌓 Dark mode friendly, pixel-inspired aesthetic
+- ⚡️ Optimized for Vercel deployment
+
+---
+
+## 🛠️ Tech Stack
+
+| Category | Tools / Libraries |
+|-----------|-------------------|
+| Framework | [Next.js 15](https://nextjs.org/) |
+| UI & Styling | [Tailwind CSS](https://tailwindcss.com/), [Framer Motion](https://www.framer.com/motion/) |
+| Markdown | [React Markdown](https://github.com/remarkjs/react-markdown), `remark-gfm`, `remark-breaks` |
+| 3D / Canvas | [React Three Fiber](https://docs.pmnd.rs/react-three-fiber), [Three.js](https://threejs.org/) |
+| Hosting | [Vercel](https://vercel.com/) |
+
+---
+
+## 🧩 Project Structure
+
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+joy-portfolio/
+├─ public/                      # Static assets (icons, OG images, small thumbs)
+│  └─ ...
+├─ src/
+│  ├─ app/                      # Next.js App Router pages/routes
+│  │  └─ ...                    # e.g. (2d), (3d), articles/[slug], layout.tsx
+│  ├─ components/               # Reusable UI components
+│  ├─ contents/
+│  │  └─ articles/              # Markdown/MDX articles (your Naples post, etc.)
+│  ├─ libs/                     # Helpers/utilities (date, markdown loaders, etc.)
+│  └─ types/                    # TypeScript types/interfaces
+├─ middleware.ts                # Next.js middleware (at repo root)
+├─ .gitignore
+├─ eslint.config.mjs
+├─ next-env.d.ts
+├─ next.config.ts
+├─ package-lock.json
+├─ package.json
+├─ postcss.config.mjs
+├─ README.md
+└─ tsconfig.json
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+````
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Getting Started
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# 1. Clone this repository
+git clone https://github.com/joylin0123/joy-lin-portfolio.git
+cd joy-lin-portfolio
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 2. Install dependencies
+npm install
 
-## Deploy on Vercel
+# 3. Run locally
+npm run dev
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 4. Visit
+http://localhost:3000/2d
+````
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🧠 Development Notes
+
+* **Markdown articles** are rendered through a custom `Markdown` component with table, image, and caption support.
+* **Images** are optimized using Tailwind + grid layouts for responsive alignment.
+* **3D scene** (React Three Fiber) includes rotating elements, camera controls, and interactive billboards.
+
+---
+
+## 🖼️ Deployment
+
+This project is automatically deployed to **Vercel** on each push to the `main` branch.
+
+**Production URL:**
+👉 [https://joy-lin-portfolio.vercel.app/2d](https://joy-lin-portfolio.vercel.app/2d)
+
+---
+
+## 📄 License
+
+This project is open for educational and personal portfolio purposes.
+© 2025 Joy Lin. All rights reserved.
+
+---
+
+### 🪶 Author
+
+**Joy Lin**
+[GitHub @joylin0123](https://github.com/joylin0123)
