@@ -1,4 +1,4 @@
-export type Meta = {
+export type ArticleMeta = {
   slug: string;
   title: string;
   date: string;

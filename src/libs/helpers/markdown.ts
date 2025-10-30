@@ -8,14 +8,7 @@ import remarkRehype from "remark-rehype";
 import rehypeSlug from "rehype-slug";
 import rehypeAutolinkHeadings from "rehype-autolink-headings";
 import rehypeStringify from "rehype-stringify";
-
-export type ArticleMeta = {
-  slug: string;
-  title: string;
-  date: string;
-  summary?: string;
-  tags?: string[];
-};
+import { ArticleMeta } from "@/types/ArticleMeta";
 
 export type Article = {
   meta: ArticleMeta;

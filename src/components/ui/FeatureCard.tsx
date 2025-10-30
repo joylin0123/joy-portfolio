@@ -1,5 +1,5 @@
 import PixelBadge from "@/components/ui/PixelBadge";
-import { Meta } from "@/types/Meta";
+import { ArticleMeta } from "@/types/ArticleMeta";
 
 export default function FeatureCard(props: {
   title: string;
@@ -7,7 +7,7 @@ export default function FeatureCard(props: {
   blurb: string;
   href: string;
   chips?: string[];
-  latest?: Meta[];
+  latest?: ArticleMeta[];
 }) {
   return (
     <a href={props.href} className="block pixel-border bg-slate-900/40 p-4 hover:bg-slate-900/60">

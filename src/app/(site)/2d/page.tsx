@@ -3,12 +3,9 @@ import PixelDivider from '@/components/ui/PixelDivider';
 import FeatureCard from '@/components/ui/FeatureCard';
 import { getArticleMetaList } from '@/libs/helpers/markdown';
 import { pixelBorderStyle } from '@/libs/constants/pixelBorderStyle';
+import { ArticleMeta } from '@/types/ArticleMeta';
 
-type Meta = {
-  slug: string; title: string; date: string; summary?: string; tags?: string[];
-};
-
-function byTag(items: Meta[], tag: string, limit = 1) {
+function byTag(items: ArticleMeta[], tag: string, limit = 1) {
   const lower = tag.toLowerCase();
   return items.filter(m => (m.tags ?? []).map(t => t.toLowerCase()).includes(lower)).slice(0, limit);
 }
@@ -20,8 +17,6 @@ export default async function FlatHome() {
 
   const latestTech    = byTag(all, 'tech', 1).concat(byTag(all, 'technical', 1));
   const latestPhoto   = byTag(all, 'photo', 1).concat(byTag(all, 'photography', 1));
-  const latestJournal = byTag(all, 'journal', 1).concat(byTag(all, 'journals', 1));
-  const latestEurope  = byTag(all, 'europe', 1).concat(byTag(all, 'life', 1));
 
   return (
     <main className="min-h-dvh text-slate-100 bg-slate-950 print:bg-white print:text-black">
