@@ -1,7 +1,7 @@
 ---
 title: Naples 2025
 date: 2025-10-30
-summary: A week of saffron tea, tight alleys, and Vesuvius light.
+summary: A week of good food and perfect weather.
 tags: [Travel, Photography, Italy, Naples]
 ---
 
