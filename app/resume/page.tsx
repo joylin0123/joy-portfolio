@@ -1,11 +1,12 @@
 'use client';
 
+import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
+function Section({ id, title, children }: { id?: string; title: string; children: React.ReactNode }) {
   return (
-    <section className="mb-10 print:mb-6">
-      <h2 className="mb-4 text-xl md:text-2xl font-black tracking-wider uppercase text-emerald-300 drop-shadow-[0_0_1px_rgba(16,185,129,0.7)]">
+    <section id={id} className="mb-10 print:mb-6">
+      <h2 className="mb-4 text-xl md:text-2xl font-black uppercase">
         <span className="pixel-border px-3 py-1 bg-slate-900/60">{title}</span>
       </h2>
       <div className="space-y-4">{children}</div>
@@ -59,6 +60,7 @@ const resume = {
   experience: [
     {
       company: "Tenfold AI",
+      company_url: "https://tenfoldai.io",
       title: "Software Engineer Intern",
       location: "Remote, Taiwan",
       period: "Aug 2024 – Jul 2025",
@@ -72,6 +74,7 @@ const resume = {
     },
     {
       company: "Crypto Arsenal",
+      company_url: "https://crypto-arsenal.io",
       title: "Software Engineer Intern",
       location: "Remote, Taiwan",
       period: "Jun 2024 – Aug 2024",
@@ -84,6 +87,7 @@ const resume = {
     },
     {
       company: "AppWorks School (AiWorks)",
+      company_url: "https://aiworks.tw",
       title: "Web Development Trainee",
       location: "Taipei, Taiwan",
       period: "Aug 2023 – Jan 2024",
@@ -222,7 +226,7 @@ export default function ResumePage() {
             <article key={idx} className="pixel-border bg-slate-900/40 p-4">
               <header className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
                 <h3 className="font-bold text-lg md:text-xl tracking-wide">
-                  {job.title} · <span className="text-emerald-300">{job.company}</span>
+                  {job.title} · <a href={job.company_url} target="_blank"><span className="text-emerald-300 hover:underline">{job.company}</span></a>
                 </h3>
                 <p className="text-sm text-slate-300/80">{job.location} · {job.period}</p>
               </header>

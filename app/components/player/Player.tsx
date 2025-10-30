@@ -159,7 +159,6 @@ export default function Player({
     cameraRef.current.position.lerp(camPos, 1 - Math.pow(0.001, dt));
     cameraRef.current.lookAt(t.x, t.y + head, t.z);
 
-    // interactions
     let nearest: string|null = null, minD = INTERACT_RADIUS;
     for (const a of interactTargets) {
       const d = a.pos.distanceTo(new THREE.Vector3(t.x, 0, t.z));

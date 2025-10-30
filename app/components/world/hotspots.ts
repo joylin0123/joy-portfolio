@@ -1,5 +1,5 @@
 export type Hotspot = {
-  id: "resume" | "articles" | "projects";
+  id: "resume" | "articles" | "projects" | "contact" | "github";
   label: string;
   url: string;
   pos: [number, number, number];
@@ -14,15 +14,32 @@ export const HOTSPOTS: Hotspot[] = [
     id: "resume",
     label: "Resume",
     url: "/resume",
-    pos: [-2.6, 0.0, 0.0],
+    pos: [-2.6, 0, 0],
     kind: "board",
-    size: [1.2, 0.8, 0.08],
-    offset: [-4.6, 0.0],
+    offset: [-4.6, 0],
+    y: -3.2,
+  },
+  {
+    id: "articles",
+    label: "Articles",
+    url: "/articles",
+    pos: [-0.6, 0, 2.2],
+    kind: "board",
+    offset: [-0.6, 2.2],
+    y: -3.2,
+  },
+  {
+    id: "contact",
+    label: "Contact",
+    url: "/contact",
+    pos: [2.7, 0, 1.4],
+    kind: "board",
+    offset: [2.7, 1.4],
     y: -3.2,
   },
 ];
 
-export const INTERACT_RADIUS = 3.0;
+export const INTERACT_RADIUS = 2.5;
 
 export function getWorldHotspots(center: [number, number], waterY: number) {
   const baseY = waterY + 0.4;

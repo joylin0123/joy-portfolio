@@ -1,6 +1,5 @@
-// HotspotMeshes.tsx
 import { Billboard, Text, Float, Sparkles } from '@react-three/drei';
-import { useThree, useFrame } from '@react-three/fiber';
+import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useRef } from 'react';
 import { HOTSPOTS } from './hotspots';
