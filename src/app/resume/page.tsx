@@ -3,29 +3,10 @@
 import { profile } from "@/libs/constants/profile";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
-
-function Section({ id, title, children }: { id?: string; title: string; children: React.ReactNode }) {
-  return (
-    <section id={id} className="mb-10 print:mb-6">
-      <h2 className="mb-4 text-xl md:text-2xl font-black uppercase">
-        <span className="pixel-border px-3 py-1 bg-slate-900/60">{title}</span>
-      </h2>
-      <div className="space-y-4">{children}</div>
-    </section>
-  );
-}
-
-function PixelBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-block pixel-border bg-slate-900/60 px-2 py-1 text-xs font-semibold tracking-wide">
-      {children}
-    </span>
-  );
-}
-
-function PixelDivider() {
-  return <div className="h-1 w-full bg-[repeating-linear-gradient(90deg,#0ea5a7_0_10px,transparent_10px_20px)] opacity-40 my-4"/>;
-}
+import Section from "@/components/ui/Section";
+import PixelDivider from "@/components/ui/PixelDivider";
+import PixelBadge from "@/components/ui/PixelBadge";
+import { pixelBorderStyle } from "@/libs/constants/pixelBorderStyle";
 
 function K({ children }: { children: React.ReactNode }) {
   return <kbd className="px-2 py-0.5 ml-1 rounded pixel-border text-[0.7rem]">{children}</kbd>;
@@ -309,23 +290,7 @@ export default function ResumePage() {
         </footer>
       </div>
 
-      {/* Local styles for pixel borders */}
-      <style>{`
-        .pixel-border {
-          position: relative;
-          border: 2px solid rgba(16, 185, 129, 0.7);
-          box-shadow:
-            0 0 0 2px rgba(16, 185, 129, 0.15) inset,
-            0 0 8px rgba(16, 185, 129, 0.35),
-            0 0 24px rgba(16, 185, 129, 0.15);
-          image-rendering: pixelated;
-        }
-        @media print {
-          .pixel-border { box-shadow: none; border-color: #222; }
-          a { color: #000 !important; text-decoration: none !important; }
-          main { background: #fff !important; }
-        }
-      `}</style>
+      <style>{pixelBorderStyle}</style>
     </main>
   );
 }

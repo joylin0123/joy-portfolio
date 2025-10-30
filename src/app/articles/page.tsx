@@ -1,34 +1,9 @@
 import React, { useMemo } from 'react';
-import { getArticleMetaList } from '@/contents/articles/registry';
-
-function Section({ id, title, children }: { id?: string; title: string; children: React.ReactNode }) {
-  return (
-    <section id={id} className="mb-10 print:mb-6">
-      <h2 className="mb-4 text-xl md:text-2xl font-black uppercase">
-        <span className="pixel-border px-3 py-1 bg-slate-900/60">{title}</span>
-      </h2>
-      <div className="space-y-4">{children}</div>
-    </section>
-  );
-}
-
-function PixelBadge({ children }: { children: React.ReactNode }) {
-  return (
-    <span className="inline-block pixel-border bg-slate-900/60 px-2 py-1 text-[11px] font-semibold tracking-wide">
-      {children}
-    </span>
-  );
-}
-
-function PixelDivider() {
-  return <div className="h-1 w-full bg-[repeating-linear-gradient(90deg,#0ea5a7_0_10px,transparent_10px_20px)] opacity-40 my-4"/>;
-}
-
-function formatDate(s: string) {
-  const d = new Date(s);
-  if (isNaN(+d)) return s;
-  return d.toLocaleDateString('en-GB', { year: 'numeric', month: 'short', day: '2-digit' });
-}
+import { getArticleMetaList } from '../../contents/articles/registry';
+import Section from '@/components/ui/Section';
+import PixelBadge from '@/components/ui/PixelBadge';
+import PixelDivider from '@/components/ui/PixelDivider';
+import formatDate from '@/libs/helpers/formatDate';
 
 export default function ArticlesIndexPage() {
   const items = useMemo(() => getArticleMetaList().sort((a,b) => (a.date < b.date ? 1 : -1)), []);
