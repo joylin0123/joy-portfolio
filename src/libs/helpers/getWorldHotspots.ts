@@ -1,4 +1,4 @@
-import { HOTSPOTS } from "../../constants/hotspots";
+import { HOTSPOTS } from "../constants/hotspots";
 
 export function getWorldHotspots(center: [number, number], waterY: number) {
   const baseY = waterY + 0.4;

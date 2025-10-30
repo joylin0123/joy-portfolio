@@ -1,13 +1,13 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { Physics /*, Debug*/, RigidBody } from '@react-three/rapier';
+import { Physics, RigidBody } from '@react-three/rapier';
 import { Suspense, useMemo, useRef, useState } from 'react';
 import IslandModel from '../world/IslandModel';
 import Player from '../player/Player';
 import * as THREE from 'three';
 import HotspotMeshes from '../world/HotspotMeshes';
-import { HOTSPOTS, INTERACT_RADIUS } from '../../../constants/hotspots';
+import { HOTSPOTS } from '@/libs/constants/hotspots';
 import ControlsHUD from '../world/ControlsHUD';
 import MatrixLoader from '../world/MatrixLoader';
 

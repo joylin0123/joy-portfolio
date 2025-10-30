@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import { getArticleMetaList } from '../../public/articles/registry';
+import { getArticleMetaList } from '@/contents/articles/registry';
 
 function Section({ id, title, children }: { id?: string; title: string; children: React.ReactNode }) {
   return (

@@ -1,5 +1,6 @@
 'use client';
 
+import { profile } from "@/libs/constants/profile";
 import Link from "next/link";
 import React, { useMemo, useState } from "react";
 
@@ -34,14 +35,14 @@ function K({ children }: { children: React.ReactNode }) {
 // Data (edit here)
 // --------------------------
 const resume = {
-  name: "Joy Lin",
-  role: "Software Engineer",
-  location: "Amsterdam, NL",
+  name: profile.name,
+  role: profile.role,
+  location: profile.location,
   contacts: {
-    email: "linjoy6@gmail.com",
-    phone: "+31 620 596 715",
-    linkedin: "https://www.linkedin.com/in/joy-lin-tw/",
-    github: "https://github.com/joylin0123",
+    email: profile.email,
+    phone: profile.phone,
+    linkedin: profile.linkedin,
+    github: profile.github,
   },
   education: [
     {

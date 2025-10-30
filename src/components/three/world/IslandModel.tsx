@@ -16,7 +16,7 @@ export default function IslandModel({
   onReady?: (topY: number) => void;
   targetSize?: number;
 }) {
-  const gltf = useGLTF('/models/island.glb') as any;
+  const gltf = useGLTF('models/island.glb') as any;
   const scene: THREE.Object3D | undefined = gltf?.scene;
 
   const norm = useMemo(() => {

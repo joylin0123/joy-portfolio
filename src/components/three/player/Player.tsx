@@ -3,8 +3,8 @@ import { CapsuleCollider, RigidBody, useRapier } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import KirbyAvatar from '../avatar/KirbyAvatar';
-import { keys, onDown, onUp } from './keyboard';
-import { HOTSPOTS, INTERACT_RADIUS } from '../../../constants/hotspots';
+import { keys, onDown, onUp } from '@/libs/helpers/keyboard';
+import { HOTSPOTS, INTERACT_RADIUS } from '@/libs/constants/hotspots';
 
 const WATER_LEVEL = 0.15;      // y-height of water surface in your model
 const STEP_HEIGHT = 0.6;       // max ledge height we auto-step up

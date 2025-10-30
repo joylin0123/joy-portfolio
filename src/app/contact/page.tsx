@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { profile } from '../../constants/profile';
+import { profile } from '../../libs/constants/profile';
 
 function Section({ id, title, children }: { id?: string; title: string; children: React.ReactNode }) {
   return (
