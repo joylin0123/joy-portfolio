@@ -1,7 +1,6 @@
 'use client';
 
 import { Canvas } from '@react-three/fiber';
-import { Html } from '@react-three/drei';
 import { Physics /*, Debug*/, RigidBody } from '@react-three/rapier';
 import { Suspense, useMemo, useRef, useState } from 'react';
 import IslandModel from '../world/IslandModel';
@@ -10,6 +9,7 @@ import * as THREE from 'three';
 import HotspotMeshes from '../world/HotspotMeshes';
 import { HOTSPOTS } from '../world/hotspots';
 import ControlsHUD from '../world/ControlsHUD';
+import MatrixLoader from '../world/MatrixLoader';
 
 type IslandInfo = {
   topY: number;
@@ -20,6 +20,7 @@ type IslandInfo = {
 export default function Island() {
   const [panel, setPanel] = useState<string | null>(null);
   const [info, setInfo] = useState<IslandInfo | null>(null);
+  const [ready, setReady] = useState(false);
 
   const handleReady = (payload: any) => {
     if (typeof payload === 'number') {
@@ -31,6 +32,7 @@ export default function Island() {
       const cz = Number(payload.landCenter?.[1] ?? 0);
       setInfo({ topY, waterY, landCenter: [cx, cz] });
     }
+    setReady(true);
   };
 
   const spawn = useMemo<[number, number, number] | null>(() => {
@@ -95,6 +97,7 @@ export default function Island() {
           </Physics>
         </Suspense>
       </Canvas>
+      <MatrixLoader ready={ready} minDurationMs={100} />
       <ControlsHUD hidden={!!panel} />
       {panel && (
         <div className="fixed inset-0 bg-black/50 grid place-items-center">
