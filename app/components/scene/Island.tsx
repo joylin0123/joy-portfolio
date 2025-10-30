@@ -9,6 +9,7 @@ import Player from '../player/Player';
 import * as THREE from 'three';
 import HotspotMeshes from '../world/HotspotMeshes';
 import { HOTSPOTS } from '../world/hotspots';
+import ControlsHUD from '../world/ControlsHUD';
 
 type IslandInfo = {
   topY: number;
@@ -100,7 +101,7 @@ export default function Island() {
           </Physics>
         </Suspense>
       </Canvas>
-
+      <ControlsHUD hidden={!!panel} />
       {panel && (
         <div className="fixed inset-0 bg-black/50 grid place-items-center">
           <div className="w-[90vw] max-w-[900px] h-[80vh] bg-[#141824] rounded-2xl border border-white/10 overflow-hidden">

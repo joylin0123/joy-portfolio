@@ -180,11 +180,6 @@ export default function Player({
     >
       <CapsuleCollider args={[height / 2, radius]} />
       <KirbyAvatar yawRef={yaw} targetHeight={height} />
-      <Html occlude style={{ pointerEvents:'none' }}>
-        <div style={{ position:'absolute', top:-28, left:-20, fontSize:12 }}>
-          {near ? `Press E to open ${near}` : ''}
-        </div>
-      </Html>
     </RigidBody>
   );
 }
