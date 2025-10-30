@@ -51,9 +51,15 @@ export default async function FlatHome() {
             and low-power devices. Switch to the full 3D island anytime.
           </p>
           <div className="mt-3">
-            <a className="pixel-border inline-block bg-slate-900/40 px-3 py-1 text-sm hover:bg-slate-900/60" href="/3d?view=3d">
-              Switch to 3D
-            </a>
+            
+            <nav className="flex flex-wrap gap-2">
+              <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/articles">Articles</a>
+              <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/resume">Resume</a>
+              <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/contact">Contact</a>
+              <a className="pixel-border inline-block bg-slate-900/40 px-3 py-1 text-sm hover:bg-slate-900/60" href="/3d?view=3d">
+                Switch to 3D
+              </a>
+            </nav>
           </div>
         </header>
 
@@ -100,15 +106,6 @@ export default async function FlatHome() {
               ))}
             </div>
           )}
-        </Section>
-
-        {/* Utility nav */}
-        <Section title="Quick links">
-          <nav className="flex flex-wrap gap-2">
-            <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/articles">Articles</a>
-            <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/resume">Resume</a>
-            <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/contact">Contact</a>
-          </nav>
         </Section>
 
         <footer className="mt-10 text-xs text-slate-400/80">
