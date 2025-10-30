@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { Html } from '@react-three/drei';
 import { CapsuleCollider, RigidBody, useRapier } from '@react-three/rapier';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
@@ -37,6 +36,7 @@ export default function Player({
   const walkSpeed = 5.2;
   const swimSpeed = 2.6;       // slower in water
   const jumpVel   = 7.0;       // stronger jump so ledge is reachable
+  
 
   // mouse-look
   const yaw = useRef(0), pitch = useRef(0);
@@ -92,8 +92,8 @@ export default function Player({
 
     // WASD
     const dir = new THREE.Vector3();
-    if (keys.w) dir.add(forward);
-    if (keys.s) dir.sub(forward);
+    if (keys.w) dir.sub(forward);
+    if (keys.s) dir.add(forward);
     if (keys.d) dir.add(right);
     if (keys.a) dir.sub(right);
     if (dir.lengthSq() > 0) dir.normalize();
@@ -174,8 +174,9 @@ export default function Player({
       colliders={false}
       mass={60}
       position={spawnPos}
-      enabledRotations={[false, false, false]}
+      enabledRotations={[true, false, true]}
       friction={0.0}
+      angularDamping={0.4}
     >
       <CapsuleCollider args={[height / 2, radius]} />
       <KirbyAvatar yawRef={yaw} targetHeight={height} />
