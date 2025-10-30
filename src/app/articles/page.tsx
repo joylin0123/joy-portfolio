@@ -34,18 +34,6 @@ export default async function ArticlesIndexPage(
 
       <div className="mx-auto max-w-4xl px-5 py-8 md:py-12">
         <header className="mb-8 md:mb-10">
-          <div className="mb-3">
-            <Link
-              href="/choose"
-              aria-label="Go to home"
-              className="pixel-border inline-flex items-center gap-2 bg-slate-900/60 hover:bg-slate-800 px-2 py-1 text-xs"
-              title="Back to Home"
-            >
-              <span>←</span>
-              <span>Home</span>
-            </Link>
-          </div>
-
           <h1 className="text-2xl md:text-4xl font-black tracking-wider">
             <span className="text-emerald-300 drop-shadow-[0_0_4px_rgba(16,185,129,0.7)]">Articles</span>
           </h1>
