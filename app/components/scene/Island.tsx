@@ -59,12 +59,6 @@ export default function Island() {
         <hemisphereLight intensity={0.9} groundColor="#213" />
         <directionalLight position={[6, 10, 6]} intensity={1.6} />
 
-        <Html center style={{ pointerEvents: 'none' }}>
-          <div style={{ opacity: 0.7, fontSize: 14 }}>
-            Click to capture mouse • WASD move • Mouse look • Space jump
-          </div>
-        </Html>
-
         <Suspense fallback={null}>
           <Physics gravity={[0, -12, 0]}>
             <IslandModel onReady={handleReady} />
