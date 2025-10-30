@@ -41,12 +41,11 @@ export default async function FlatHome() {
             <span className="opacity-85">— Portfolio</span>
           </h1>
           <p className="text-slate-300/90 mt-2 text-sm md:text-base">
-            I build interactive things on the web (and sometimes in 3D). This lightweight home
-            explains what you’ll find here and routes you to the right place—perfect for mobile
-            and low-power devices. Switch to the full 3D island anytime.
+            Welcome to my portfolio! I'm Joy — a Computer Science master's student at UvA and VU, currently living in Amsterdam. 
+            I love building things with code and capturing moments through photography. 
+            Hope you enjoy exploring this website!
           </p>
           <div className="mt-3">
-            
             <nav className="flex flex-wrap gap-2">
               <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/articles">Articles</a>
               <a className="pixel-border px-3 py-1 bg-slate-900/40 hover:bg-slate-900/60" href="/resume">Resume</a>
