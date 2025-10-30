@@ -7,7 +7,7 @@ import IslandModel from '../world/IslandModel';
 import Player from '../player/Player';
 import * as THREE from 'three';
 import HotspotMeshes from '../world/HotspotMeshes';
-import { HOTSPOTS } from '../world/hotspots';
+import { HOTSPOTS, INTERACT_RADIUS } from '../../../constants/hotspots';
 import ControlsHUD from '../world/ControlsHUD';
 import MatrixLoader from '../world/MatrixLoader';
 

@@ -2,7 +2,7 @@ import { Billboard, Text, Float, Sparkles } from '@react-three/drei';
 import { useFrame } from '@react-three/fiber';
 import * as THREE from 'three';
 import { useRef } from 'react';
-import { HOTSPOTS } from './hotspots';
+import { HOTSPOTS } from '../../../constants/hotspots';
 
 export default function HotspotMeshes({
   center = [0, 0],
