@@ -6,6 +6,8 @@ import { Language } from 'prism-react-renderer';
 import { Highlight } from 'prism-react-renderer';
 import { themes } from 'prism-react-renderer';
 import { Key } from 'react';
+import A, { typesOfA } from './A';
+import PixelDivider from './PixelDivider';
 
 export default function Markdown({
   content,
@@ -25,7 +27,7 @@ export default function Markdown({
         <table
           className={getClassName(
             'table',
-            'divide-y divide-emerald-500 border border-emerald-500 my-4',
+            'divide-y divide-ring border border-ring my-4',
           )}
         >
           {children}
@@ -35,7 +37,7 @@ export default function Markdown({
         <thead className={getClassName('thead', '')}>{children}</thead>
       ),
       tbody: ({ children }) => (
-        <tbody className={getClassName('tbody', 'divide-y divide-emerald-500')}>
+        <tbody className={getClassName('tbody', 'divide-y divide-ring')}>
           {children}
         </tbody>
       ),
@@ -101,9 +103,7 @@ export default function Markdown({
           {children}
         </h6>
       ),
-      hr: ({ children }) => (
-        <hr className={getClassName('hr', 'my-4')}>{children}</hr>
-      ),
+      hr: ({ children }) => <PixelDivider />,
       ul: ({ children }) => (
         <ul className={getClassName('ul', 'ml-8 list-disc')}>{children}</ul>
       ),
@@ -163,14 +163,23 @@ export default function Markdown({
           {children}
         </figcaption>
       ),
-      a: ({ children, href }) => <a href={href}>{children}</a>,
+      a: ({ children, href }) => (
+        <A
+          href={href || ''}
+          type={typesOfA.UNDERLINE}
+          className="text-ring"
+          target="_blank"
+        >
+          {children}
+        </A>
+      ),
       code: ({ className, children, ...props }) => {
         const match = /language-(\w+)/.exec(className || '');
         const code = String(children).replace(/\n$/, '');
         if (!match) {
           return (
             <code
-              className="wrap-break-words bg-emerald-500 text-black px-1 rounded-sm"
+              className="wrap-break-words bg-button-background px-1 rounded-sm"
               {...props}
             >
               {children}
@@ -194,7 +203,7 @@ export default function Markdown({
               getTokenProps: (props: any) => any;
             }) => (
               <pre
-                className={`overflow-x-auto border border-emerald-500 p-4 my-4 rounded-lg ${cn}`}
+                className={`overflow-x-auto border border-ring p-4 my-4 rounded-lg ${cn}`}
                 style={style}
               >
                 {tokens.map((line, i) => (
@@ -226,7 +235,7 @@ export default function Markdown({
             className={getClassName(
               'blockquoteIcon',
               'pointer-events-none absolute -top-3 -left-3 grid h-6 w-6 place-items-center ' +
-                'rounded-md bg-emerald-500/20 text-emerald-600 dark:text-emerald-300',
+                'rounded-md bg-button-background/40 text-ring',
             )}
           >
             “
