@@ -1,7 +1,7 @@
-import Section from '../Section';
+import Section from '../common/Section';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import { resume } from '@/libs/constants/resume';
-import A, { typesOfA } from '../A';
+import A, { typesOfA } from '../common/A';
 
 export default function ResumeExperience() {
   return (

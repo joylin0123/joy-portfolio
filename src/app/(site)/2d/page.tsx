@@ -1,11 +1,11 @@
-import Section from '@/components/ui/Section';
-import PixelDivider from '@/components/ui/PixelDivider';
-import FeatureCard from '@/components/ui/FeatureCard';
+import Section from '@/components/ui/common/Section';
+import PixelDivider from '@/components/ui/common/PixelDivider';
+import FeatureCard from '@/components/ui/common/FeatureCard';
 import { getArticleMetaList } from '@/libs/helpers/markdown';
 import { pixelBorderStyle } from '@/libs/constants/pixelBorderStyle';
 import { ArticleMeta } from '@/types/ArticleMeta';
-import PixelBadge from '@/components/ui/PixelBadge';
-import ArticleCard from '@/components/ui/ArticleCard';
+import PixelBadge from '@/components/ui/common/PixelBadge';
+import ArticleCard from '@/components/ui/common/ArticleCard';
 
 function byTag(items: ArticleMeta[], tag: string, limit = 1) {
   const lower = tag.toLowerCase();

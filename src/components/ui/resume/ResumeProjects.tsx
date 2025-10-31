@@ -1,8 +1,8 @@
-import Section from '../Section';
-import PixelBadge from '../PixelBadge';
+import Section from '../common/Section';
+import PixelBadge from '../common/PixelBadge';
 import { resume } from '@/libs/constants/resume';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
-import A, { typesOfA } from '../A';
+import A, { typesOfA } from '../common/A';
 
 export default function ResumeProjects() {
   return (

@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
-import PixelDivider from '@/components/ui/PixelDivider';
+import PixelDivider from '@/components/ui/common/PixelDivider';
 import formatDate from '@/libs/helpers/formatDate';
 import { getArticleBySlug, getArticleSlugs } from '@/libs/helpers/markdown';
-import Markdown from '@/components/ui/Markdown';
+import Markdown from '@/components/ui/common/Markdown';
 
 export const runtime = 'nodejs'; // using fs
 

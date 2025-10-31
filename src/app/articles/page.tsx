@@ -1,7 +1,7 @@
 import { getArticleMetaList } from '@/libs/helpers/markdown';
-import Section from '@/components/ui/Section';
-import PixelBadge from '@/components/ui/PixelBadge';
-import PixelDivider from '@/components/ui/PixelDivider';
+import Section from '@/components/ui/common/Section';
+import PixelBadge from '@/components/ui/common/PixelBadge';
+import PixelDivider from '@/components/ui/common/PixelDivider';
 import formatDate from '@/libs/helpers/formatDate';
 import {
   pixelBorderInlineStyle,

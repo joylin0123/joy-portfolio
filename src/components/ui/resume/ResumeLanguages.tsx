@@ -1,6 +1,6 @@
-import Section from '../Section';
+import Section from '../common/Section';
 import { resume } from '@/libs/constants/resume';
-import PixelBadge from '../PixelBadge';
+import PixelBadge from '../common/PixelBadge';
 
 export default function ResumeLanguages() {
   return (

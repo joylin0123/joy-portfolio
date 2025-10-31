@@ -2,7 +2,7 @@
 
 import { resume } from '@/libs/constants/resume';
 import React from 'react';
-import PixelDivider from '@/components/ui/PixelDivider';
+import PixelDivider from '@/components/ui/common/PixelDivider';
 import ResumeHeader from '@/components/ui/resume/ResumeHeader';
 import ResumeExperience from '@/components/ui/resume/ResumeExperience';
 import ResumeEducation from '@/components/ui/resume/ResumeEducation';

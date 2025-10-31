@@ -1,7 +1,7 @@
-import Section from '../Section';
+import Section from '../common/Section';
 import { resume } from '@/libs/constants/resume';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
-import PixelBadge from '../PixelBadge';
+import PixelBadge from '../common/PixelBadge';
 
 export default function ResumeSkills() {
   return (

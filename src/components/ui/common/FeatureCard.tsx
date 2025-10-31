@@ -1,4 +1,4 @@
-import PixelBadge from "@/components/ui/PixelBadge";
+import PixelBadge from '@/components/ui/common/PixelBadge';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import { ArticleMeta } from '@/types/ArticleMeta';
 

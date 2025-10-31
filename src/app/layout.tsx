@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import ThemeToggler from '@/components/ui/ThemeToggler';
+import ThemeToggler from '@/components/ui/common/ThemeToggler';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 

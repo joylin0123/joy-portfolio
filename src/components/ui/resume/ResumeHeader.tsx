@@ -1,7 +1,7 @@
 import Image from 'next/image';
 import { resume } from '@/libs/constants/resume';
-import PixelBadge from '../PixelBadge';
-import A, { typesOfA } from '../A';
+import PixelBadge from '../common/PixelBadge';
+import A, { typesOfA } from '../common/A';
 import { copyToClickBoard } from '@/libs/helpers/copyToClickBoard';
 
 export default function ResumeHeader() {
