@@ -2,6 +2,11 @@ import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
 import { Components } from 'react-markdown';
+import { Language } from 'prism-react-renderer';
+import { Highlight } from 'prism-react-renderer';
+import { themes } from 'prism-react-renderer';
+import { Key } from 'react';
+
 
 export default function Markdown({
   content,
@@ -18,7 +23,7 @@ export default function Markdown({
   const getComponentsObject = (): Components => {
     return {
       table: ({ children }) => (
-        <table className={getClassName('table', 'divide-y divide-gray-200 border border-gray-200')}>
+        <table className={getClassName('table', 'divide-y divide-emerald-200 border border-emerald-200 my-4')}>
           {children}
         </table>
       ),
@@ -26,7 +31,7 @@ export default function Markdown({
         <thead className={getClassName('thead', '')}>{children}</thead>
       ),
       tbody: ({ children }) => (
-        <tbody className={getClassName('tbody', 'divide-y divide-gray-200')}>
+        <tbody className={getClassName('tbody', 'divide-y divide-emerald-200')}>
           {children}
         </tbody>
       ),
@@ -49,7 +54,7 @@ export default function Markdown({
           className={getClassName(
             'p',
             [
-              'text-md leading-relaxed break-words',
+              'text-md leading-relaxed break-words mb-1',
               'md:[&:has(.mdf+.mdf)]:grid',
               'md:[&:has(.mdf+.mdf)]:grid-cols-2',
               '[&:has(.mdf+.mdf)]:gap-3 md:[&:has(.mdf+.mdf)]:gap-4',
@@ -61,22 +66,22 @@ export default function Markdown({
         </p>
       ),
       h1: ({ children }) => (
-        <h1 className={getClassName('h1', 'text-5xl mb-4 font-bold')}>{children}</h1>
+        <h1 className={getClassName('h1', 'text-5xl my-4 font-bold')}>{children}</h1>
       ),
       h2: ({ children }) => (
-        <h2 className={getClassName('h2', 'text-4xl mb-4 font-bold')}>{children}</h2>
+        <h2 className={getClassName('h2', 'text-4xl my-4 font-bold')}>{children}</h2>
       ),
       h3: ({ children }) => (
-        <h3 className={getClassName('h3', 'text-3xl mb-4 font-semibold')}>{children}</h3>
+        <h3 className={getClassName('h3', 'text-3xl my-4 font-semibold')}>{children}</h3>
       ),
       h4: ({ children }) => (
-        <h4 className={getClassName('h4', 'text-2xl mb-4 font-semibold')}>{children}</h4>
+        <h4 className={getClassName('h4', 'text-2xl my-4 font-semibold')}>{children}</h4>
       ),
       h5: ({ children }) => (
-        <h5 className={getClassName('h5', 'text-lg mb-4 font-semibold')}>{children}</h5>
+        <h5 className={getClassName('h5', 'text-lg my-4 font-semibold')}>{children}</h5>
       ),
       h6: ({ children }) => (
-        <h6 className={getClassName('h6', 'text-md mb-4 font-semibold')}>{children}</h6>
+        <h6 className={getClassName('h6', 'text-md my-4 font-semibold')}>{children}</h6>
       ),
       hr: ({ children }) => <hr className={getClassName('hr', 'my-4')}>{children}</hr>,
       ul: ({ children }) => <ul className={getClassName('ul', 'ml-8 list-disc')}>{children}</ul>,
@@ -85,7 +90,6 @@ export default function Markdown({
           className={getClassName(
             'ol',
             [
-              'grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-12',
               'list-decimal ml-6',
             ].join(' ')
           )}
@@ -143,14 +147,37 @@ export default function Markdown({
           {children}
         </a>
         ),
-      code: ({ className, children }) => {
-        const isBlock = className?.includes('language-');
-        return isBlock ? (
-          <pre className="overflow-x-auto">
-            <code className="whitespace-pre-wrap break-words">{children}</code>
-          </pre>
-        ) : (
-          <code className="break-words break-all">{children}</code>
+      code: ({ className, children, ...props }) => {
+        const match = /language-(\w+)/.exec(className || '');
+        const code = String(children).replace(/\n$/, '');
+        if (!match) {
+          return (
+            <code className="wrap-break-words bg-emerald-300 text-black px-1 rounded-sm" {...props}>
+              {children}
+            </code>
+          );
+        }
+        const lang = match[1] as Language;
+        return (
+          <Highlight code={code} language={lang} theme={themes.nightOwl}>
+            {({ className: cn, style, tokens, getLineProps, getTokenProps }: {
+              className: string;
+              style: React.CSSProperties;
+              tokens: any[];
+              getLineProps: (props: any) => any;
+              getTokenProps: (props: any) => any;
+            }) => (
+              <pre className={`overflow-x-auto border border-emerald-300 p-4 my-4 rounded-lg ${cn}`} style={style}>
+                {tokens.map((line, i) => (
+                  <div key={i} {...getLineProps({ line })}>
+                    {line.map((token: any, key: Key | null | undefined) => (
+                      <span key={key} {...getTokenProps({ token })} />
+                    ))}
+                  </div>
+                ))}
+              </pre>
+            )}
+          </Highlight>
         );
       },
       strong: ({ children }) => <strong className={getClassName('strong', '')}>{children}</strong>,
