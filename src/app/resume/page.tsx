@@ -10,12 +10,6 @@ import ResumeProjects from '@/components/ui/resume/ResumeProjects';
 import ResumeSkills from '@/components/ui/resume/ResumeSkills';
 import ResumeLanguages from '@/components/ui/resume/ResumeLanguages';
 
-function K({ children }: { children: React.ReactNode }) {
-  return (
-    <kbd className="px-2 py-0.5 ml-1 rounded text-[0.7rem]">{children}</kbd>
-  );
-}
-
 export default function ResumePage() {
   return (
     <main className="min-h-screen bg-background text-foreground">
