@@ -39,11 +39,8 @@ export default function ThemeToggler() {
       aria-label="Toggle theme"
       className={[
         'group absolute right-2 top-2 inline-flex items-center gap-2 rounded-xl',
-        'border border-emerald-400/40 bg-slate-900/70 px-3 py-2',
-        'shadow-[0_0_0_1px_rgba(16,185,129,.18)_inset,0_10px_30px_-12px_rgba(16,185,129,.25)]',
+        'px-3 py-2 border border-ring hover:bg-button-background-hover',
         'transition-all duration-200',
-        'hover:border-emerald-300 hover:bg-slate-800/70',
-        'focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-400/70',
         'active:scale-[0.98]',
       ].join(' ')}
     >

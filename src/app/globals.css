@@ -10,7 +10,7 @@
   --ring: oklch(62% 0.15 250);
 
   --button-background: oklch(77% 0.0639 245.803);
-  --button-background-hover: oklch(62% 0.15 250);
+  --button-background-hover: oklch(68.9% 0.10108 246.177);
 }
 
 :where(html.dark, #rootElement.dark) {
