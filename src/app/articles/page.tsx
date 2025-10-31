@@ -3,10 +3,7 @@ import Section from '@/components/ui/common/Section';
 import PixelBadge from '@/components/ui/common/PixelBadge';
 import PixelDivider from '@/components/ui/common/PixelDivider';
 import formatDate from '@/libs/helpers/formatDate';
-import {
-  pixelBorderInlineStyle,
-  pixelBorderStyle,
-} from '@/libs/constants/pixelBorderStyle';
+import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import Link from 'next/link';
 
 export const runtime = 'nodejs';
@@ -91,8 +88,6 @@ export default async function ArticlesIndexPage({
           </p>
         </footer>
       </div>
-
-      <style>{pixelBorderStyle}</style>
     </main>
   );
 }

@@ -2,7 +2,6 @@ import Section from '@/components/ui/common/Section';
 import PixelDivider from '@/components/ui/common/PixelDivider';
 import FeatureCard from '@/components/ui/common/FeatureCard';
 import { getArticleMetaList } from '@/libs/helpers/markdown';
-import { pixelBorderStyle } from '@/libs/constants/pixelBorderStyle';
 import { ArticleMeta } from '@/types/ArticleMeta';
 import PixelBadge from '@/components/ui/common/PixelBadge';
 import ArticleCard from '@/components/ui/common/ArticleCard';
@@ -105,8 +104,6 @@ export default async function FlatHome() {
           </p>
         </footer>
       </div>
-
-      <style>{pixelBorderStyle}</style>
     </main>
   );
 }
