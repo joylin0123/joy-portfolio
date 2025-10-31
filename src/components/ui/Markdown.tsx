@@ -7,7 +7,6 @@ import { Highlight } from 'prism-react-renderer';
 import { themes } from 'prism-react-renderer';
 import { Key } from 'react';
 
-
 export default function Markdown({
   content,
   customClassName,
@@ -26,7 +25,7 @@ export default function Markdown({
         <table
           className={getClassName(
             'table',
-            'divide-y divide-emerald-200 border border-emerald-200 my-4',
+            'divide-y divide-emerald-500 border border-emerald-500 my-4',
           )}
         >
           {children}
@@ -36,7 +35,7 @@ export default function Markdown({
         <thead className={getClassName('thead', '')}>{children}</thead>
       ),
       tbody: ({ children }) => (
-        <tbody className={getClassName('tbody', 'divide-y divide-emerald-200')}>
+        <tbody className={getClassName('tbody', 'divide-y divide-emerald-500')}>
           {children}
         </tbody>
       ),
@@ -141,7 +140,7 @@ export default function Markdown({
             loading="lazy"
           />
           {alt ? (
-            <em className="md-caption block w-full text-center italic text-white/70">
+            <em className="md-caption block w-full text-center italic">
               {alt}
             </em>
           ) : null}
@@ -164,23 +163,14 @@ export default function Markdown({
           {children}
         </figcaption>
       ),
-      a: ({ children, href }) => (
-        <a
-          href={href}
-          target="_blank"
-          rel="noreferrer"
-          className={getClassName('a', 'text-emerald-400 hover:underline')}
-        >
-          {children}
-        </a>
-      ),
+      a: ({ children, href }) => <a href={href}>{children}</a>,
       code: ({ className, children, ...props }) => {
         const match = /language-(\w+)/.exec(className || '');
         const code = String(children).replace(/\n$/, '');
         if (!match) {
           return (
             <code
-              className="wrap-break-words bg-emerald-300 text-black px-1 rounded-sm"
+              className="wrap-break-words bg-emerald-500 text-black px-1 rounded-sm"
               {...props}
             >
               {children}
@@ -204,7 +194,7 @@ export default function Markdown({
               getTokenProps: (props: any) => any;
             }) => (
               <pre
-                className={`overflow-x-auto border border-emerald-300 p-4 my-4 rounded-lg ${cn}`}
+                className={`overflow-x-auto border border-emerald-500 p-4 my-4 rounded-lg ${cn}`}
                 style={style}
               >
                 {tokens.map((line, i) => (
@@ -255,11 +245,13 @@ export default function Markdown({
         </q>
       ),
     };
-      
   };
 
   return (
-    <ReactMarkdown remarkPlugins={[remarkGfm, remarkBreaks]} components={getComponentsObject()}>
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm, remarkBreaks]}
+      components={getComponentsObject()}
+    >
       {content}
     </ReactMarkdown>
   );

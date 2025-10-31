@@ -3,14 +3,14 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 :root {
-  --background: oklch(96.8% 0.007 247.896);
+  --background: oklch(86.9% 0.022 252.894);
   --foreground: oklch(12.9% 0.042 264.695);
 
   --border: #e6e8eb;
-  --ring: oklch(70.4% 0.14 182.503);
+  --ring: oklch(62% 0.15 250);
 
-  --button-background: oklch(95% 0.052 163.051);
-  --button-background-hover: oklch(84.5% 0.143 164.978);
+  --button-background: oklch(77% 0.0639 245.803);
+  --button-background-hover: oklch(62% 0.15 250);
 }
 
 :where(html.dark, #rootElement.dark) {
@@ -55,6 +55,5 @@ html { scroll-behavior: smooth; }
 
 .ring-glow {
   filter:
-    drop-shadow(0 0 6px color-mix(in oklab, var(--ring) 45%, transparent))
     drop-shadow(0 0 14px color-mix(in oklab, var(--ring) 30%, transparent));
 }

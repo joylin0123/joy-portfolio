@@ -3,7 +3,6 @@ import PixelDivider from '@/components/ui/PixelDivider';
 import formatDate from '@/libs/helpers/formatDate';
 import { getArticleBySlug, getArticleSlugs } from '@/libs/helpers/markdown';
 import Markdown from '@/components/ui/Markdown';
-import A from '@/components/ui/A';
 
 export const runtime = 'nodejs'; // using fs
 
@@ -27,9 +26,9 @@ export default async function ArticleDetailPage({
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-4xl px-5 py-8 md:py-12">
         <header className="mb-6">
-          <A href="/articles" className="inline-block mb-3">
+          <a href="/articles" className="inline-block mb-3">
             ← Back
-          </A>
+          </a>
           <h1 className="text-2xl md:text-3xl font-black tracking-wider ring-glow">
             {m.title}
           </h1>
