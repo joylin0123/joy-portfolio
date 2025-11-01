@@ -1,6 +1,6 @@
 'use client';
 
-import { profile } from '../../libs/constants/profile';
+import { profile } from '../../../libs/constants/profile';
 import ContactQuickQuestions from '@/components/ui/contact/ContactQuickQuestions';
 import ContactMessageForm from '@/components/ui/contact/ContactMessageForm';
 import ContactAvailability from '@/components/ui/contact/ContactAvailability';
