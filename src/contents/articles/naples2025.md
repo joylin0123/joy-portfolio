@@ -2,7 +2,7 @@
 title: Naples 2025
 date: 2025-10-30
 summary: A week of good food and perfect weather.
-tags: [Travel, Photography, Italy, Naples]
+tags: [Travel, Photography, GR3X]
 ---
 
 > **Trip**: 2025-10-19 → 2025-10-26  
