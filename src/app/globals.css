@@ -9,6 +9,8 @@
 
   --button-background: oklch(77% 0.0639 245.803);
   --button-background-hover: oklch(68.9% 0.10108 246.177);
+
+  --secondary: oklch(31.389% 0.0346 275.043);
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,6 +23,8 @@
 
     --button-background: oklch(64.499% 0.10433 170.143);
     --button-background-hover: oklch(50.8% 0.118 165.612);
+
+    --secondary: oklch(76.325% 0.03179 267.147);
   }
 }
 
@@ -33,6 +37,8 @@ html.dark {
 
   --button-background: oklch(64.499% 0.10433 170.143);
   --button-background-hover: oklch(50.8% 0.118 165.612);
+
+  --secondary: oklch(76.325% 0.03179 267.147);
 }
 
 html.light {
@@ -44,6 +50,8 @@ html.light {
 
   --button-background: oklch(77% 0.0639 245.803);
   --button-background-hover: oklch(68.9% 0.10108 246.177);
+
+  --secondary: oklch(31.389% 0.0346 275.043);
 }
 
 @theme inline {
@@ -53,6 +61,7 @@ html.light {
   --color-ring: var(--ring);
   --color-button-background: var(--button-background);
   --color-button-background-hover: var(--button-background-hover);
+  --color-secondary: var(--secondary)
 }
 
 html { color-scheme: light dark; scroll-behavior: smooth; }

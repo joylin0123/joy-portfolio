@@ -5,6 +5,7 @@ import PixelDivider from '@/components/ui/common/PixelDivider';
 import formatDate from '@/libs/helpers/formatDate';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import Link from 'next/link';
+import HashTag from '@/components/ui/common/Hashtag';
 
 export const runtime = 'nodejs';
 
@@ -67,7 +68,7 @@ export default async function ArticlesIndexPage({
                 {!!m.tags?.length && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {m.tags!.map((t) => (
-                      <PixelBadge key={t}>{t}</PixelBadge>
+                      <HashTag key={t} text={t} />
                     ))}
                   </div>
                 )}

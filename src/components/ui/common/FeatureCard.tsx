@@ -1,6 +1,6 @@
-import PixelBadge from '@/components/ui/common/PixelBadge';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import { ArticleMeta } from '@/types/ArticleMeta';
+import HashTag from './Hashtag';
 
 export default function FeatureCard(props: {
   title: string;
@@ -15,7 +15,7 @@ export default function FeatureCard(props: {
         <h3 className="font-bold text-lg tracking-wide">{props.title}</h3>
         <div className="flex flex-wrap gap-1">
           {props.chips?.slice(0, 3).map((c) => (
-            <PixelBadge key={c}>{c}</PixelBadge>
+            <HashTag key={c} text={c} />
           ))}
         </div>
       </div>
