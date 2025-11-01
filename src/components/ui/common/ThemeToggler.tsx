@@ -35,7 +35,7 @@ export default function ThemeToggler() {
       aria-pressed={isDark}
       aria-label="Toggle theme"
       className={[
-        'group absolute right-2 top-2 inline-flex items-center gap-2 rounded-xl',
+        'group inline-flex items-center gap-2 rounded-xl',
         'px-3 py-2 border border-ring hover:bg-button-background-hover',
         'transition-all duration-200 active:scale-[0.98]',
       ].join(' ')}

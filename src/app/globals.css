@@ -75,3 +75,12 @@ body {
 .ring-glow {
   filter: drop-shadow(0 0 14px color-mix(in oklab, var(--ring) 30%, transparent));
 }
+
+/* Hide scrollbars (Chrome/Safari/Edge/Firefox/IE) */
+.no-scrollbar {
+  -ms-overflow-style: none;    /* IE/Edge */
+  scrollbar-width: none;       /* Firefox */
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;               /* Chrome/Safari */
+}

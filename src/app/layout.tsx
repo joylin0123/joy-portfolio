@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
-import ThemeToggler from '@/components/ui/common/ThemeToggler';
+import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import 'katex/dist/katex.min.css';
+import TwoDOnly from '@/components/utils/TwoDOnly';
+import NavEditorial from '@/components/nav/NavEditorial';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -27,9 +28,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col`}
       >
-        <ThemeToggler />
+        <TwoDOnly>
+          <NavEditorial />
+        </TwoDOnly>
         {children}
       </body>
     </html>

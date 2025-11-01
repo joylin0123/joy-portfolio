@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import { resume } from '@/libs/constants/resume';
 import PixelBadge from '../common/PixelBadge';
 import A, { typesOfA } from '../common/A';
@@ -9,13 +8,6 @@ export default function ResumeHeader() {
     <header className="mb-8 md:mb-12">
       <div className="flex items-center justify-between gap-4">
         <div className="flex items-center gap-4">
-          <Image
-            src="/joy.jpg"
-            alt="joy-profile-pic"
-            width={120}
-            height={120}
-            className="rounded-4xl"
-          />
           <div>
             <h1 className="text-2xl md:text-4xl font-black tracking-wider">
               <span className="">{resume.name}</span>
