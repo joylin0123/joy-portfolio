@@ -1,6 +1,8 @@
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import remarkBreaks from 'remark-breaks';
+import remarkMath from 'remark-math';
+import rehypeKatex from 'rehype-katex';
 import { Components } from 'react-markdown';
 import { Language } from 'prism-react-renderer';
 import { Highlight } from 'prism-react-renderer';
@@ -258,7 +260,8 @@ export default function Markdown({
 
   return (
     <ReactMarkdown
-      remarkPlugins={[remarkGfm, remarkBreaks]}
+      remarkPlugins={[remarkGfm, remarkBreaks, remarkMath]}
+      rehypePlugins={[rehypeKatex]}
       components={getComponentsObject()}
     >
       {content}
