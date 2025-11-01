@@ -16,7 +16,7 @@ export default function HeroEditorial() {
             />
           </div>
         </div>
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row mt-4 md:mt-0">
           <h1 className="flex flex-col gap-4">
             <span className="block leading-[0.9] font-black tracking-[-0.02em] text-[clamp(2.8rem,10vw,8rem)]">
               Joy Lin
