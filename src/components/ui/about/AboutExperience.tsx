@@ -3,7 +3,7 @@ import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import { resume } from '@/libs/constants/resume';
 import A, { typesOfA } from '../common/A';
 
-export default function ResumeExperience() {
+export default function AboutExperience() {
   return (
     <Section title="Experience">
       {resume.experience.map((job, idx) => (

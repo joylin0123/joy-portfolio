@@ -4,7 +4,7 @@ import { resume } from '@/libs/constants/resume';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import A, { typesOfA } from '../common/A';
 
-export default function ResumeProjects() {
+export default function AboutProjects() {
   return (
     <Section title="Projects">
       <div className="grid md:grid-cols-2 gap-4">

@@ -3,7 +3,7 @@ import { resume } from '@/libs/constants/resume';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import PixelBadge from '../common/PixelBadge';
 
-export default function ResumeSkills() {
+export default function AboutSkills() {
   return (
     <Section title="Skills">
       <div className="grid md:grid-cols-2 gap-4">

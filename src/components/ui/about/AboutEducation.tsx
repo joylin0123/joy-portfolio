@@ -2,7 +2,7 @@ import Section from '../common/Section';
 import { resume } from '@/libs/constants/resume';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 
-export default function ResumeEducation() {
+export default function AboutEducation() {
   return (
     <Section title="Education">
       {resume.education.map((ed, idx) => (

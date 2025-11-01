@@ -3,7 +3,7 @@ import PixelBadge from '../common/PixelBadge';
 import A, { typesOfA } from '../common/A';
 import { copyToClickBoard } from '@/libs/helpers/copyToClickBoard';
 
-export default function ResumeHeader() {
+export default function AboutHeader() {
   return (
     <header className="mb-8 md:mb-12">
       <div className="flex items-center justify-between gap-4">
