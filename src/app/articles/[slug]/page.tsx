@@ -27,7 +27,7 @@ export default async function ArticleDetailPage({
       <div className="mx-auto max-w-4xl px-5 py-8 md:py-12">
         <header className="mb-6">
           <a href="/articles" className="inline-block mb-3">
-            ← Back
+            ← Back to Articles
           </a>
           <h1 className="text-2xl md:text-3xl font-black tracking-wider ring-glow">
             {m.title}

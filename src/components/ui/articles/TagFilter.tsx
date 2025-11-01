@@ -38,7 +38,7 @@ export default function TagFilter({
       aria-pressed={active}
       className={[
         'px-3 py-1 rounded-md text-sm border transition',
-        active ? 'border-ring bg-ring/10' : 'border-border hover:bg-accent/30',
+        active ? 'border-ring bg-ring/10' : 'border-border hover:bg-ring/30',
       ].join(' ')}
     >
       {label}

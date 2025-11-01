@@ -1,37 +1,54 @@
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
+import Link from 'next/link';
+import HashTag from './Hashtag';
+import formatDate from '@/libs/helpers/formatDate';
 
 export default function ArticleCard({
   slug,
   title,
   date,
   summary,
+  tags,
 }: {
   slug: string;
   title: string;
   date: string;
   summary?: string;
+  tags?: string[];
 }) {
   return (
-    <a
-      key={slug}
-      href={`/articles/${slug}`}
-      className={`${pixelBorderInlineStyle} p-3`}
+    <article
+      className={`relative block ${pixelBorderInlineStyle} p-4 hover:bg-accent/30 transition`}
     >
-      <div className="flex items-baseline justify-between gap-2">
-        <h3 className="font-semibold text-sm md:text-base tracking-wide">
-          {title}
-        </h3>
-        <span className="text-[11px] opacity-70">
-          {new Date(date).toLocaleDateString('en-GB', {
-            year: 'numeric',
-            month: 'short',
-            day: '2-digit',
-          })}
-        </span>
+      <Link
+        href={`/articles/${slug}`}
+        className="absolute inset-0 z-0"
+        aria-label={`Open article: ${title}`}
+      >
+        <span className="sr-only">{title}</span>
+      </Link>
+
+      <div className="flex flex-wrap items-baseline justify-between gap-2">
+        <h3 className="font-bold text-lg md:text-xl tracking-wide">{title}</h3>
+        <span className="text-xs opacity-70">{formatDate(date)}</span>
       </div>
-      {summary && (
-        <p className="text-sm opacity-85 mt-1 line-clamp-2">{summary}</p>
+
+      {summary && <p className="text-sm opacity-85 mt-1">{summary}</p>}
+
+      {!!tags?.length && (
+        <div className="mt-2 flex flex-wrap gap-1.5">
+          {tags!.map((t) => (
+            <Link
+              key={t}
+              href={{ pathname: '/articles', query: { tag: t } }}
+              className="relative z-10 inline-block"
+              aria-label={`Filter by ${t}`}
+            >
+              <HashTag text={t} />
+            </Link>
+          ))}
+        </div>
       )}
-    </a>
+    </article>
   );
 }

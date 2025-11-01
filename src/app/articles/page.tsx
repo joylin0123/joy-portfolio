@@ -1,11 +1,8 @@
 import { getArticleMetaList } from '@/libs/helpers/markdown';
 import Section from '@/components/ui/common/Section';
 import PixelDivider from '@/components/ui/common/PixelDivider';
-import formatDate from '@/libs/helpers/formatDate';
-import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
-import Link from 'next/link';
-import HashTag from '@/components/ui/common/Hashtag';
 import TagFilter from '@/components/ui/articles/TagFilter';
+import ArticleCard from '@/components/ui/common/ArticleCard';
 
 export const runtime = 'nodejs';
 
@@ -62,43 +59,14 @@ export default async function ArticlesIndexPage({
         <Section title="All posts">
           <div className="space-y-4">
             {items.map((m) => (
-              <article
-                key={m.slug}
-                className={`block ${pixelBorderInlineStyle} p-4 rounded-lg`}
-              >
-                <div className="flex flex-wrap items-baseline justify-between gap-2">
-                  <h3 className="font-bold text-lg md:text-xl tracking-wide">
-                    <Link
-                      href={`/articles/${m.slug}`}
-                      className="hover:underline"
-                    >
-                      {m.title}
-                    </Link>
-                  </h3>
-                  <span className="text-xs opacity-70">
-                    {formatDate(m.date)}
-                  </span>
-                </div>
-
-                {m.summary && (
-                  <p className="text-sm opacity-85 mt-1">{m.summary}</p>
-                )}
-
-                {!!m.tags?.length && (
-                  <div className="mt-2 flex flex-wrap gap-1.5">
-                    {m.tags!.map((t) => (
-                      <Link
-                        key={t}
-                        href={{ pathname: '/articles', query: { tag: t } }}
-                        className="inline-block"
-                        aria-label={`Filter by ${t}`}
-                      >
-                        <HashTag text={t} />
-                      </Link>
-                    ))}
-                  </div>
-                )}
-              </article>
+              <ArticleCard
+                key={m.title}
+                title={m.title}
+                slug={m.slug}
+                summary={m.summary}
+                tags={m.tags}
+                date={m.date}
+              />
             ))}
 
             {!items.length && (

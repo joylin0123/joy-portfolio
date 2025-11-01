@@ -58,27 +58,6 @@ export default async function FlatHome() {
 
         <PixelDivider />
 
-        {/* What you'll find */}
-        <Section title="What you’ll find">
-          <div className="grid md:grid-cols-2 gap-4">
-            <FeatureCard
-              title="Photography"
-              blurb="Small photo sets and notes on gear, composition, and color. Expect minimal edits and honest light."
-              href="/articles?tag=photography"
-              chips={['fuji', 'street', 'travel']}
-              latest={latestPhoto.slice(0, 1)}
-            />
-            <FeatureCard
-              title="Technical"
-              blurb="Code write-ups, architecture notes, and experiments (React-Three-Fiber, SwiftUI, AWS, more)."
-              href="/articles?tag=tech"
-              chips={['r3f', 'swiftui', 'aws']}
-              latest={latestTech.slice(0, 1)}
-            />
-          </div>
-        </Section>
-
-        {/* Tiny latest strip (site-wide) */}
         <Section title="Latest across the site">
           {all.length === 0 ? (
             <p className="text-sm opacity-75">No posts yet.</p>
@@ -91,6 +70,7 @@ export default async function FlatHome() {
                   summary={m.summary}
                   slug={m.slug}
                   date={m.date}
+                  tags={m.tags}
                 />
               ))}
             </div>
