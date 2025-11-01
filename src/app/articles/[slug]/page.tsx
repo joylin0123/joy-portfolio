@@ -3,6 +3,7 @@ import PixelDivider from '@/components/ui/common/PixelDivider';
 import formatDate from '@/libs/helpers/formatDate';
 import { getArticleBySlug, getArticleSlugs } from '@/libs/helpers/markdown';
 import Markdown from '@/components/ui/common/Markdown';
+import HashTag from '@/components/ui/common/Hashtag';
 
 export const runtime = 'nodejs'; // using fs
 
@@ -34,7 +35,9 @@ export default async function ArticleDetailPage({
           </h1>
           <p className="text-xs opacity-75 mt-1">{formatDate(m.date)}</p>
         </header>
-
+        <div className="flex flex-row gap-2">
+          {m.tags && m.tags.map((tag) => <HashTag key={tag} text={tag} />)}
+        </div>
         <PixelDivider />
         <Markdown content={article.html} />
       </div>
