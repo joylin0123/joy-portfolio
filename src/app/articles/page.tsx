@@ -1,11 +1,11 @@
 import { getArticleMetaList } from '@/libs/helpers/markdown';
 import Section from '@/components/ui/common/Section';
-import PixelBadge from '@/components/ui/common/PixelBadge';
 import PixelDivider from '@/components/ui/common/PixelDivider';
 import formatDate from '@/libs/helpers/formatDate';
 import { pixelBorderInlineStyle } from '@/libs/constants/pixelBorderStyle';
 import Link from 'next/link';
 import HashTag from '@/components/ui/common/Hashtag';
+import TagFilter from '@/components/ui/articles/TagFilter';
 
 export const runtime = 'nodejs';
 
@@ -18,18 +18,25 @@ export default async function ArticlesIndexPage({
 }) {
   const { tag } = await searchParams;
 
-  let items = await getArticleMetaList();
-  if (tag) {
-    const norm = tag.toLowerCase();
-    items = items.filter((m) =>
-      (m.tags || []).some((t) => t.toLowerCase() === norm),
-    );
-  }
+  // Load all posts once for tag list + filtering
+  const all = await getArticleMetaList();
+
+  const allTags = Array.from(
+    new Set(
+      all.flatMap((m) => (m.tags ?? []).map((t) => t.trim())).filter(Boolean),
+    ),
+  ).sort((a, b) => a.localeCompare(b));
+
+  const items = tag
+    ? all.filter((m) =>
+        (m.tags || []).some((t) => t.toLowerCase() === tag.toLowerCase()),
+      )
+    : all;
 
   return (
     <main className="min-h-screen bg-background text-foreground">
       <div className="mx-auto max-w-4xl px-5 py-8 md:py-12">
-        <header className="mb-8 md:mb-10">
+        <header className="mb-6 md:mb-8">
           <h1 className="text-2xl md:text-4xl font-black tracking-wider">
             <span className="ring-glow">Articles</span>
           </h1>
@@ -44,36 +51,56 @@ export default async function ArticlesIndexPage({
           </p>
         </header>
 
+        {allTags.length > 0 && (
+          <div className="mb-6 md:mb-8">
+            <TagFilter tags={allTags} selected={tag} />
+          </div>
+        )}
+
         <PixelDivider />
 
         <Section title="All posts">
           <div className="space-y-4">
             {items.map((m) => (
-              <Link
+              <article
                 key={m.slug}
-                href={`/articles/${m.slug}`}
-                className={`block ${pixelBorderInlineStyle} p-4`}
+                className={`block ${pixelBorderInlineStyle} p-4 rounded-lg`}
               >
                 <div className="flex flex-wrap items-baseline justify-between gap-2">
                   <h3 className="font-bold text-lg md:text-xl tracking-wide">
-                    {m.title}
+                    <Link
+                      href={`/articles/${m.slug}`}
+                      className="hover:underline"
+                    >
+                      {m.title}
+                    </Link>
                   </h3>
                   <span className="text-xs opacity-70">
                     {formatDate(m.date)}
                   </span>
                 </div>
+
                 {m.summary && (
                   <p className="text-sm opacity-85 mt-1">{m.summary}</p>
                 )}
+
                 {!!m.tags?.length && (
                   <div className="mt-2 flex flex-wrap gap-1.5">
                     {m.tags!.map((t) => (
-                      <HashTag key={t} text={t} />
+                      <Link
+                        key={t}
+                        href={{ pathname: '/articles', query: { tag: t } }}
+                        className="inline-block"
+                        aria-label={`Filter by ${t}`}
+                      >
+                        <HashTag text={t} />
+                      </Link>
                     ))}
                   </div>
                 )}
-              </Link>
+              </article>
             ))}
+
             {!items.length && (
               <p className="text-sm opacity-75">
                 {tag ? 'No posts for this tag yet.' : 'No posts yet.'}
