@@ -1,7 +1,7 @@
 ---
 title: Modern React Architecture and Best Practices
 date: 2025-10-31
-summary: A technical view of React, the frontend framework
+summary: A technical view of React, the frontend library
 tags: [Tech, Frontend]
 ---
 
