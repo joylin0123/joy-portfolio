@@ -26,38 +26,47 @@ export default function Markdown({
   const getComponentsObject = (): Components => {
     return {
       table: ({ children }) => (
-        <table
-          className={getClassName(
-            'table',
-            'divide-y divide-ring border border-ring my-4',
-          )}
-        >
-          {children}
-        </table>
+        <div className="my-4 -mx-4 overflow-x-auto md:mx-0 rounded-lg border border-ring bg-background">
+          <table
+            className={getClassName(
+              'table',
+              'w-full min-w-[720px] table-fixed md:table-auto text-sm',
+            )}
+          >
+            {children}
+          </table>
+        </div>
       ),
       thead: ({ children }) => (
-        <thead className={getClassName('thead', '')}>{children}</thead>
+        <thead className={getClassName('thead', 'bg-muted/40')}>
+          {children}
+        </thead>
       ),
       tbody: ({ children }) => (
-        <tbody className={getClassName('tbody', 'divide-y divide-ring')}>
-          {children}
-        </tbody>
+        <tbody className={getClassName('tbody', '')}>{children}</tbody>
       ),
       tr: ({ children }) => (
-        <tr className={getClassName('tr', '')}>{children}</tr>
+        <tr className={getClassName('tr', 'even:bg-muted/30')}>{children}</tr>
       ),
       th: ({ children }) => (
         <th
           className={getClassName(
             'th',
-            'px-6 py-3 text-left text-xs font-medium uppercase',
+            'px-2 py-2 md:px-6 md:py-3 text-left text-xs font-semibold align-top whitespace-normal wrap-break-words hyphens-auto last:pr-8 border-b border-b-ring',
           )}
         >
           {children}
         </th>
       ),
       td: ({ children }) => (
-        <td className={getClassName('td', 'text-md px-6 py-4')}>{children}</td>
+        <td
+          className={getClassName(
+            'td',
+            'px-2 py-2 md:px-6 md:py-3 align-top whitespace-normal wrap-break-words hyphens-auto text-sm last:pr-8',
+          )}
+        >
+          {children}
+        </td>
       ),
       p: ({ children }) => (
         <p
