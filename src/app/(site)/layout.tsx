@@ -1,4 +1,5 @@
 import NavEditorial from '@/components/ui/common/NavEditorial';
+import { Analytics } from '@vercel/analytics/react';
 
 export default function SiteLayout({
   children,
@@ -9,6 +10,7 @@ export default function SiteLayout({
     <>
       <NavEditorial />
       {children}
+      <Analytics />
     </>
   );
 }
