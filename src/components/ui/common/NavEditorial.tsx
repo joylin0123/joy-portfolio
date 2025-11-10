@@ -35,21 +35,35 @@ export default function NavEditorial() {
                 <li key={l.href}>
                   <Link
                     href={l.href}
-                    className={`relative transition-colors ${
+                    aria-current={active ? 'page' : undefined}
+                    className={[
+                      'relative inline-block px-0.5 py-1 group',
+                      'transition-colors duration-200 motion-reduce:transition-none',
                       active
                         ? 'text-foreground'
-                        : 'text-foreground/60 hover:text-foreground'
-                    }`}
+                        : 'text-foreground/60 hover:text-foreground',
+                      'transform transition-transform duration-200 motion-reduce:transform-none',
+                      'hover:-translate-y-0.5',
+                    ].join(' ')}
                   >
                     {l.label}
-                    {active && (
-                      <span className="absolute -bottom-1 left-1/2 h-[2px] w-5 -translate-x-1/2 rounded-full bg-foreground" />
-                    )}
+
+                    <span
+                      className={[
+                        'pointer-events-none absolute -bottom-1 left-0 h-[2px] w-full rounded-full',
+                        active ? 'bg-foreground' : 'bg-foreground/70',
+                        'origin-left transition-transform duration-300 motion-reduce:transition-none',
+                        active
+                          ? 'scale-x-100'
+                          : 'scale-x-0 group-hover:scale-x-100',
+                      ].join(' ')}
+                    />
                   </Link>
                 </li>
               );
             })}
           </ul>
+
           <div className="md:hidden"></div>
           <div className="flex items-center justify-end gap-2">
             <ThemeToggler />
