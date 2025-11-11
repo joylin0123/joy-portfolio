@@ -4,7 +4,7 @@
   --background: oklch(86.9% 0.022 252.894);
   --foreground: oklch(12.9% 0.042 264.695);
 
-  --border: #e6e8eb;
+  --border: #97c1ff;
   --ring: oklch(62% 0.15 250);
 
   --button-background: oklch(77% 0.0639 245.803);
@@ -45,7 +45,7 @@ html.light {
   --background: oklch(86.9% 0.022 252.894);
   --foreground: oklch(12.9% 0.042 264.695);
 
-  --border: #e6e8eb;
+  --border: #97c1ff;
   --ring: oklch(62% 0.15 250);
 
   --button-background: oklch(77% 0.0639 245.803);
