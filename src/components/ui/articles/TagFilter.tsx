@@ -6,10 +6,14 @@ export default function TagFilter({
   tags,
   selected,
   className = '',
+  size = 'xs', // 'xs' | 'sm'
+  onChange,
 }: {
   tags: string[];
   selected?: string;
   className?: string;
+  size?: 'xs' | 'sm';
+  onChange?: (tag?: string) => void;
 }) {
   const router = useRouter();
   const pathname = usePathname();
@@ -21,7 +25,13 @@ export default function TagFilter({
     else params.set('tag', tag);
     const qs = params.toString();
     router.replace(qs ? `${pathname}?${qs}` : pathname, { scroll: false });
+    onChange?.(tag);
   };
+
+  const sizing =
+    size === 'xs'
+      ? { pad: 'px-2.5 py-0.5', text: 'text-[11px]', gap: 'gap-1.5' }
+      : { pad: 'px-3 py-1', text: 'text-xs', gap: 'gap-2' };
 
   const Chip = ({
     label,
@@ -37,8 +47,12 @@ export default function TagFilter({
       onClick={onClick}
       aria-pressed={active}
       className={[
-        'px-3 py-1 rounded-md text-sm border transition',
-        active ? 'border-ring bg-ring/10' : 'border-border hover:bg-ring/30',
+        'rounded-md border transition',
+        sizing.pad,
+        sizing.text,
+        active
+          ? 'border-ring bg-ring/10 text-foreground'
+          : 'border-border hover:bg-muted/60',
       ].join(' ')}
     >
       {label}
@@ -47,7 +61,7 @@ export default function TagFilter({
 
   return (
     <div
-      className={`flex flex-wrap gap-2 ${className}`}
+      className={`flex flex-wrap ${sizing.gap} ${className}`}
       role="radiogroup"
       aria-label="Filter by tag"
     >
