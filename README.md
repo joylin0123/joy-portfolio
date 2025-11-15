@@ -1,6 +1,6 @@
 # 🌐 Joy Lin — Interactive 2D/3D Portfolio
 
-**Live Demo:** [joy-lin-portfolio.vercel.app/2d](https://joy-lin-portfolio.vercel.app/2d)  
+**Live Demo:** [joy6.vercel.app](https://joy6.vercel.app)  
 A personal interactive portfolio built with **Next.js**, **React Three Fiber**, and **TailwindCSS** — blending a minimalist 2D layout with immersive 3D scenes.
 
 ---
