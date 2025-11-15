@@ -46,18 +46,10 @@ export default function HeroEditorial() {
             className="mt-7 flex flex-wrap gap-3"
           >
             <motion.a
-              href="#projects"
+              href="#articles"
               whileTap={{ scale: 0.96 }}
               whileHover={{ y: -1 }}
               className="inline-flex items-center rounded-full border border-border px-4 py-2 text-xs font-medium tracking-tight hover:bg-foreground hover:text-background transition-colors"
-            >
-              View selected work
-            </motion.a>
-            <motion.a
-              href="#articles"
-              whileTap={{ scale: 0.97 }}
-              whileHover={{ y: -1 }}
-              className="inline-flex items-center rounded-full border border-transparent px-4 py-2 text-xs font-medium tracking-tight text-foreground/75 hover:bg-foreground/5"
             >
               Read notes & articles
             </motion.a>
