@@ -1,88 +1,66 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import Image from 'next/image';
 
 export default function HeroEditorial() {
   return (
-    <section className="mx-auto max-w-6xl pt-16 pb-20 sm:pt-20 sm:pb-24">
-      <div className="grid items-center gap-10 md:grid-cols-[minmax(0,1.2fr)_minmax(0,0.9fr)]">
-        <div>
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 0.6, y: 0 }}
-            transition={{ duration: 0.35, ease: 'easeOut' }}
-            className="text-[10px] uppercase tracking-[0.28em] mb-4"
-          >
-            Software · Photography · Notes
-          </motion.p>
+    <section className="mx-auto max-w-6xl px-4 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20">
+      <motion.div
+        initial={{ opacity: 0, y: 8 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+        className="mb-10 flex items-center justify-between text-[11px] text-foreground/60"
+      >
+        <span className="tracking-[0.22em] uppercase">
+          Joy Lin · Software &amp; Photography
+        </span>
+        <span className="tracking-[0.22em] uppercase">Amsterdam</span>
+      </motion.div>
 
-          <motion.h1
-            initial={{ opacity: 0, y: 18 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: 'easeOut', delay: 0.05 }}
-            className="text-4xl sm:text-5xl md:text-[3.3rem] font-semibold tracking-[-0.03em] leading-[1.02]"
-          >
-            Joy Lin,
-            <span className="block">building tools, stories,</span>
-            <span className="block">and little experiments.</span>
-          </motion.h1>
+      <motion.div
+        initial={{ opacity: 0, y: 18 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: 'easeOut', delay: 0.05 }}
+        className="space-y-6"
+      >
+        <h1 className="text-[clamp(2.4rem,5vw,3.4rem)] font-semibold tracking-[-0.04em] leading-tight">
+          <span className="block">A small logbook</span>
+          <span className="block">of things I notice.</span>
+        </h1>
 
-          <motion.p
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 0.9, y: 0 }}
-            transition={{ duration: 0.45, ease: 'easeOut', delay: 0.12 }}
-            className="mt-5 max-w-xl text-sm text-foreground/70"
-          >
-            Student currently based in Amsterdam. I like building web things,
-            playing with data, and documenting trips and everyday moments
-            through photos.
-          </motion.p>
+        <p className="max-w-xl text-[13px] leading-relaxed text-foreground/75">
+          I&apos;m a CS student at VU &amp; UvA in Amsterdam, previously
+          Mathematics &amp; CS at NTHU in Taiwan. I design and build full-stack
+          products, learn about systems and optimization, and keep visual notes
+          through photography and travel journals.
+        </p>
+      </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.45, ease: 'easeOut', delay: 0.18 }}
-            className="mt-7 flex flex-wrap gap-3"
-          >
-            <motion.a
-              href="#articles"
-              whileTap={{ scale: 0.96 }}
-              whileHover={{ y: -1 }}
-              className="inline-flex items-center rounded-full border border-border px-4 py-2 text-xs font-medium tracking-tight hover:bg-foreground hover:text-background transition-colors"
-            >
-              Read notes & articles
-            </motion.a>
-          </motion.div>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: 'easeOut', delay: 0.12 }}
+        className="mt-10 grid gap-4 text-[11px] text-foreground/60 sm:grid-cols-3"
+      >
+        <div className="space-y-1">
+          <p className="tracking-[0.22em] uppercase">Focus</p>
+          <p className="text-[12px] text-foreground/80">
+            Backend · Web · Data · Systems
+          </p>
         </div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 22 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, ease: 'easeOut', delay: 0.16 }}
-          className="md:justify-self-end"
-        >
-          <div className="relative w-[min(260px,90vw)] sm:w-[min(300px,90vw)] rounded-2xl border border-border/70 bg-background/70 backdrop-blur px-3 py-3 shadow-sm">
-            <div className="overflow-hidden rounded-xl">
-              <Image
-                src="/joy-profile.JPG"
-                alt="Portrait of Joy"
-                width={800}
-                height={1000}
-                className="aspect-4/5 w-full object-cover"
-                priority
-              />
-            </div>
-
-            <div className="mt-3 flex items-center justify-between text-[11px] text-foreground/70">
-              <span className="uppercase tracking-[0.2em]">Joy Lin</span>
-              <span className="rounded-full border border-border px-2 py-0.5 text-[10px] uppercase tracking-[0.16em]">
-                Portfolio · 2025
-              </span>
-            </div>
-          </div>
-        </motion.div>
-      </div>
+        <div className="space-y-1">
+          <p className="tracking-[0.22em] uppercase">Currently</p>
+          <p className="text-[12px] text-foreground/80">
+            Joint MSc CS (VU &amp; UvA), software engineer intern.
+          </p>
+        </div>
+        <div className="space-y-1">
+          <p className="tracking-[0.22em] uppercase">This site</p>
+          <p className="text-[12px] text-foreground/80">
+            Selected projects, notes, and photos.
+          </p>
+        </div>
+      </motion.div>
     </section>
   );
 }

@@ -21,18 +21,18 @@ function SectionBlock({
   delay = 0,
 }: SectionBlockProps) {
   return (
-    <section id={id} className="border-t border-border/60 pt-10 md:pt-12">
+    <section id={id} className="border-t border-border/60 pt-8 md:pt-10">
       <SectionReveal delay={delay}>
-        <div className="grid gap-8 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
-          <div className="md:pr-10">
-            <p className="mb-3 text-[10px] uppercase tracking-[0.24em] text-foreground/55">
+        <div className="grid gap-6 md:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
+          <div className="md:pr-10 space-y-2">
+            <p className="text-[10px] uppercase tracking-[0.28em] text-foreground/55">
               {kicker}
             </p>
-            <h2 className="mb-3 text-xl md:text-2xl font-semibold tracking-tight">
+            <h2 className="text-[15px] md:text-[16px] font-medium tracking-tight">
               {title}
             </h2>
             {description && (
-              <p className="max-w-sm text-sm text-foreground/70">
+              <p className="max-w-sm text-[13px] leading-relaxed text-foreground/70">
                 {description}
               </p>
             )}
@@ -47,12 +47,12 @@ function SectionBlock({
 
 export default async function HomeSections() {
   return (
-    <div className="mx-auto mb-16 max-w-6xl space-y-12 px-4 pb-10 sm:px-6 sm:pb-20 md:space-y-16">
+    <div className="mx-auto mb-16 max-w-6xl space-y-10 px-4 pb-10 sm:px-6 sm:pb-20 md:space-y-12">
       <SectionBlock
         id="about"
         kicker="Profile"
         title="Who I am"
-        description="A quick snapshot of my background, what I care about, and what I like building and learning."
+        description="Background, what I care about, and what I like building and learning."
         delay={0}
       >
         <HomeAboutSection />
@@ -62,7 +62,7 @@ export default async function HomeSections() {
         id="articles"
         kicker="Writing & Notes"
         title="Articles, study notes, and travel journals"
-        description="I write about software, data, systems, and sometimes about cities, trains, and camera experiments."
+        description="Mostly software, data, systems and sometimes trains, cities, and camera notes."
         delay={0.05}
       >
         <HomeArticleSection />
@@ -71,8 +71,8 @@ export default async function HomeSections() {
       <SectionBlock
         id="photos"
         kicker="Photos"
-        title="Visual notes from trips & everyday life"
-        description="A small selection of photos that document places I’ve lived in, traveled to, and people I met."
+        title="Visual notes"
+        description="Images from places I’ve spent time in."
         delay={0.1}
       >
         <HomePhotoSection />
